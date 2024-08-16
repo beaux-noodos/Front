@@ -12,7 +12,6 @@ export * from "./customer";
 export * from "./product";
 export * from "./user";
 export * from "./project";
-export * from "./xxxxxx";
 export * from "./location";
 export * from "./drawer";
 export * from "./categories";
