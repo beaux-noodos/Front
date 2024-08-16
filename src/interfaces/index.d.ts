@@ -68,6 +68,57 @@ export interface IProjectSession {
   title: string;
   description: string;
   end_datetime: string;
+}
+
+export interface IProject {
+  id: string;
+  user: IUser;
+  title: string;
+  description: string;
+  categories: IProjectCategory[];
+  investor: IUser;
+  technicalSolution: IUser;
+  sessions: IProjectSession[];
+  status: StatusEnum;
+  price: number;
+  localisation: ILocation;
+  start_datetime: string;
+  end_datetime: string;
+  need_investor: boolean;
+  need_technical_solution: boolean;
+  like_number: number;
+  view_number: number;
+  star_medium: number;
+  image_url: string;
+  picture_is_implemented: boolean;
+  creation_datetime: string;
+  updated_at: string;
+}
+
+export interface ILocation {
+  id: string;
+  name: string;
+  description: string;
+  latitude: string;  // Consider using number if latitude and longitude are numeric
+  longitude: string; // Consider using number if latitude and longitude are numeric
+  creation_datetime: string;
+  updated_at: string;
+}
+
+export interface IProjectCategory {
+  id: string;
+  name: string;
+  description: string;
+}
+
+export interface IProjectSession {
+  id: string;
+  project: IProject;
+  location: ILocation;
+  status: StatusSessionEnum;
+  title: string;
+  description: string;
+  end_datetime: string;
   like_number: number;
   view_number: number;
   star_medium:number;
@@ -108,15 +159,6 @@ export interface ILocation {
   longitude: string; // Consider using number if latitude and longitude are numeric
   creation_datetime: string;
   updated_at: string;
-}
-
-
-export interface IYyyyyy {
-  id: number;
-  creation_datetime: string;
-  updated_at: string;
-  xxxxxx: IXxxxxx;
-  zzzzzz: IZzzzzz;
 }
 
 

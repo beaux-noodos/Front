@@ -1,44 +1,52 @@
+import {PropsWithChildren, useState} from "react";
 import { useGo, useNavigation, useTranslate } from "@refinedev/core";
 import { CreateButton, List } from "@refinedev/antd";
-import { ProductListCard} from "../../components";
-import { type PropsWithChildren} from "react";
-import { useLocation } from "react-router-dom";
-import {BlogListCard} from "../../components/blog/blog-list-card";
+import { BlogListCard } from "../../components/blog/blog-list-card";
+import {ProjectModalForm} from "../../components/blog/project-creation-modal";
 
 export const DashboardPage = ({ children }: PropsWithChildren) => {
-  const go = useGo();
-  const { pathname } = useLocation();
-  const { createUrl } = useNavigation();
+    const [isModalVisible, setIsModalVisible] = useState(false); // State to manage modal visibility
+    const t = useTranslate();
 
-  const t = useTranslate();
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
 
-  return (
-      <List
-          breadcrumb={false}
-          headerButtons={(props) => [
-            <CreateButton
-                {...props.createButtonProps}
-                key="create"
-                size="large"
-                onClick={() => {
-                  return go({
-                    to: `${createUrl("products")}`,
-                    query: {
-                      to: pathname,
-                    },
-                    options: {
-                      keepQuery: true,
-                    },
-                    type: "replace",
-                  });
-                }}
+    const handleModalClose = () => {
+        setIsModalVisible(false);
+    };
+
+    return (
+        <>
+            <List
+                breadcrumb={false}
+                headerButtons={(props) => [
+                    <CreateButton
+                        {...props.createButtonProps}
+                        key="create"
+                        size="large"
+                        onClick={showModal} // Show modal on button click
+                    >
+                        {t("project.actions.add")}
+                    </CreateButton>,
+                ]}
             >
-              {t("products.actions.add")}
-            </CreateButton>,
-          ]}
-      >
-          <BlogListCard />
-        {children}
-      </List>
-  );
+                <BlogListCard />
+                {children}
+            </List>
+
+            {/* Render the modal based on state */}
+            {isModalVisible && (
+                <ProjectModalForm
+                    action="create"
+                    onClose={handleModalClose} // Pass the close handler
+                    onMutationSuccess={() => {
+                        handleModalClose();
+                        // Optionally, add any logic to handle after mutation success
+                    }}
+                    isModalVisible={isModalVisible}
+                />
+            )}
+        </>
+    );
 };
