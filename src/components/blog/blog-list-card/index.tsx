@@ -19,7 +19,7 @@ import {
     Typography,
 } from "antd";
 import React, {useState, useEffect} from "react";
-import {IUser, IXxxxxx} from "../../../interfaces";
+import {IProject, IUser,} from "../../../interfaces";
 import {CommentButton, LikeButton} from "../../../button";
 import {CommentModal} from "../../modal/commentModal";
 import {EyeOutlined, UserOutlined} from "@ant-design/icons";
@@ -45,8 +45,8 @@ export const BlogListCard = () => {
         setIsModalOpen(false);
     };
 
-    const {data, isLoading, isError, refetch} = useList<IXxxxxx, HttpError>({
-        resource: 'xxxxxxs',
+    const {data, isLoading, isError, refetch} = useList<IProject, HttpError>({
+        resource: 'projects',
         pagination: {
             current: current,
             pageSize: pageSize,
@@ -61,7 +61,7 @@ export const BlogListCard = () => {
         return <div>Error loading data</div>;
     }
 
-    const {data: xxxxxxs, total} = data || {data: [], total: 0};
+    const {data: projects, total} = data || {data: [], total: 0};
 
     // Example comments data with dates
     const comments = [
@@ -74,15 +74,15 @@ export const BlogListCard = () => {
         <>
             <Divider style={{margin: "16px 0px"}}/>
             <Row gutter={[16, 16]}>
-                {xxxxxxs.map((xxxxxx) => (
-                    <Col key={xxxxxx.id} span={8}>
+                {projects.map((project) => (
+                    <Col key={project.id} span={8}>
                         <Card
                             hoverable
                             bordered={false}
                             cover={
                                 <img
-                                    src={xxxxxx.profilePicture}
-                                    alt={xxxxxx?.user?.first_name}
+                                    src={project?.user?.photo_url}
+                                    alt={project?.user?.first_name}
                                     style={{height: 160, objectFit: "cover"}}
                                 />
                             }
@@ -95,30 +95,30 @@ export const BlogListCard = () => {
                                             <LikeButton initialLiked={false}/>
                                         </div>
                                         <div>
-                                            <CommentButton showModal={() => showModal(xxxxxx?.user)}/>
+                                            <CommentButton showModal={() => showModal(project)}/>
                                         </div>
                                     </div>
                                     <div onClick={(e) => e.stopPropagation()} style={{display: 'flex', alignItems: 'center', cursor: 'default'}} >
                                         <EyeOutlined style={{marginRight: 4}}/>
                                         <Typography.Text>
-                                            {xxxxxx.views} views
+                                            {project?.view_number} views
                                         </Typography.Text>
                                     </div>
                                 </Flex>,
                             ]}
-                            onClick={() => showModal(xxxxxx?.user)}
+                            onClick={() => showModal(project)}
                         >
                             <Card.Meta
                                 avatar={
                                     <Avatar
-                                        src={xxxxxx?.user?.avatarUrl}
+                                        src={project?.user?.avatarUrl}
                                         icon={<UserOutlined/>}
-                                        alt={xxxxxx?.user?.first_name}
+                                        alt={project?.user?.first_name}
                                     />
                                 }
                                 title={
                                     <Typography.Title level={4}>
-                                        {xxxxxx?.user?.first_name}
+                                        {project?.user?.first_name + ' ' + project?.user?.last_name}
                                     </Typography.Title>
                                 }
                                 description={
@@ -129,15 +129,15 @@ export const BlogListCard = () => {
                                             marginTop: -20,
                                             fontSize: ".7rem"
                                         }}>
-                                            {formatDate(xxxxxx?.creation_datetime)}
+                                            {formatDate(project?.creation_datetime)}
                                         </Typography.Text>
                                         <Flex style={{alignItems: "center"}}>
-                                            <Typography.Text style={{marginRight: 8}}>
-                                                {xxxxxx?.user?.first_name}
-                                            </Typography.Text>
+                                            <Typography.Title style={{marginRight: 8}} level={4}>
+                                                {project?.title}
+                                            </Typography.Title>
                                         </Flex>
                                         <Typography.Paragraph>
-                                            {xxxxxx?.user?.description}
+                                            {project?.description}
                                         </Typography.Paragraph>
                                     </>
                                 }

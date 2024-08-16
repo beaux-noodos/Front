@@ -12,7 +12,7 @@ import {
     Form, theme,
 } from "antd";
 import {ICommentModalProps} from "../../interfaces";
-import {MessageOutlined, ShareAltOutlined} from "@ant-design/icons";
+import {MessageOutlined, ShareAltOutlined, UserOutlined} from "@ant-design/icons";
 import {LikeButton} from "../../button";
 
 export const CommentModal: React.FC<ICommentModalProps> = (
@@ -65,8 +65,13 @@ export const CommentModal: React.FC<ICommentModalProps> = (
                             borderLeft: "1px solid #e8e8e8",
                         }}
                     >
-                        <Typography.Text>
-                            {data?.first_name}
+                        <Avatar
+                            src={data?.avatarUrl}
+                            icon={<UserOutlined/>}
+                            alt={data?.user?.first_name}
+                        />
+                        <Typography.Text style={{marginLeft: '.7rem'}}>
+                            {data?.user?.first_name + ' ' + data?.user?.last_name}
                         </Typography.Text>
                         <br/>
                         <Typography.Text>
