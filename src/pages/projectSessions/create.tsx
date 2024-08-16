@@ -1,14 +1,14 @@
 import { useGetToPath, useGo } from "@refinedev/core";
 import { useSearchParams } from "react-router-dom";
-import {YyyyyyDrawerForm} from "../../components/yyyyyy/yyyyyy-drawer-form";
+import {ProjectSessionDrawerForm} from "../../components/projectSession/projectSession-drawer-form";
 
-export const YyyyyyCreate = () => {
+export const ProjectSessionCreate = () => {
   const getToPath = useGetToPath();
   const [searchParams] = useSearchParams();
   const go = useGo();
 
   return (
-    <YyyyyyDrawerForm
+    <ProjectSessionDrawerForm
       action="create"
       onMutationSuccess={() => {
         go({

@@ -5,7 +5,7 @@ import {
     Button,
     Flex, theme,
 } from "antd";
-import type {IYyyyyy} from "../../../interfaces";
+import type {IProject} from "../../../interfaces";
 import {DeleteButton} from "@refinedev/antd";
 import {EditOutlined} from "@ant-design/icons";
 

@@ -20,7 +20,7 @@ import { EyeOutlined } from "@ant-design/icons";
 import { useLocation } from "react-router-dom";
 import {IYyyyyy} from "../../../interfaces";
 
-export const YyyyyyListTable = () => {
+export const ProjectionSessionListTable = () => {
     const t = useTranslate();
     const go = useGo();
     const { pathname } = useLocation();

@@ -21,7 +21,7 @@ type Props = {
     onEdit?: () => void;
 };
 
-export const YyyyyyDrawerShow = (props: Props) => {
+export const ProjectSessionDrawerShow = (props: Props) => {
     const getToPath = useGetToPath();
     const [searchParams] = useSearchParams();
     const go = useGo();
