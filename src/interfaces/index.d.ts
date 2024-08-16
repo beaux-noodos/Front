@@ -68,6 +68,11 @@ export interface IProjectSession {
   title: string;
   description: string;
   end_datetime: string;
+  like_number: number;
+  view_number: number;
+  star_medium:number;
+  creation_datetime:string;
+  updated_at:string
 }
 
 export interface IProject {

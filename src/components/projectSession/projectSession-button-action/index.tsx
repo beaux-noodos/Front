@@ -5,18 +5,18 @@ import {
     Button,
     Flex, theme,
 } from "antd";
-import type {IProject} from "../../../interfaces";
+import type {IProjectSession} from "../../../interfaces";
 import {DeleteButton} from "@refinedev/antd";
 import {EditOutlined} from "@ant-design/icons";
 
 type Props = {
-    yyyyyy: IYyyyyy,
+    projectSession: any
     handleDrawerClose: () => void
     handleDrawerEdit: () => void
 };
 
-export const YyyyyyButtonAction = (props: Props) => {
-    const {yyyyyy, handleDrawerClose, handleDrawerEdit} = props;
+export const ProjectSessionButtonAction = (props: Props) => {
+    const {projectSession, handleDrawerClose, handleDrawerEdit} = props;
     const {token} = theme.useToken();
     const t = useTranslate();
 
@@ -32,8 +32,8 @@ export const YyyyyyButtonAction = (props: Props) => {
             <Button onClick={handleDrawerClose}>Cancel</Button>
             <DeleteButton
                 type="primary"
-                recordItemId={yyyyyy?.id}
-                resource="yyyyyys"
+                recordItemId={projectSession?.id}
+                resource="ProjectSessions"
                 onSuccess={() => {
                     handleDrawerClose();
                 }}
