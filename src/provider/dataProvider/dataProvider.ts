@@ -1,14 +1,14 @@
 import { DataProvider, GetListParams, GetOneParams, CreateParams, UpdateParams, DeleteOneParams } from "@refinedev/core";
 import { userProvider } from "../userProvider/userProvider";
-import { xxxxxxProvider } from "../xxxxxxProvider/xxxxxxProvider";
-import {zzzzzzProvider} from "../zzzzzzProvider/zzzzzzProvider";
-import {yyyyyyProvider} from "../yyyyyyProvider/yyyyyyProvider";
+import { projectProvider } from "../projectProvider/projectProvider";
+import {locationProvider} from "../locationProvider/locationProvider";
+import {projectSessionProvider} from "../projectSessionProvider/projectSessionProvider";
 
 const resourceMapping = {
     users: userProvider,
-    xxxxxxs: xxxxxxProvider,
-    yyyyyys: yyyyyyProvider,
-    zzzzzzs: zzzzzzProvider,
+    projects: projectProvider,
+    projectSessions: projectSessionProvider,
+    locations: locationProvider,
 };
 
 export const dataProvider: DataProvider = {

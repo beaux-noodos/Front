@@ -1,4 +1,13 @@
-import {SecurityApi, Configuration, ZzzzzzingApi, UserApi, XxxxxxingApi, YyyyyyingApi, ChatbotApi} from "./gen";
+import {
+    SecurityApi,
+    Configuration,
+    ZzzzzzingApi,
+    UserApi,
+    XxxxxxingApi,
+    YyyyyyingApi,
+    ChatbotApi,
+    ProjectingApi, ProjectSessioningApi, LocationingApi
+} from "./gen";
 import {BASE_PATH} from "./gen/base";
 import {BEARER} from "../authProvider";
 
@@ -12,9 +21,9 @@ export const createAuthenticatedRequest = () => {
     });
 
     return {
-        xxxxxxApi: new XxxxxxingApi(config),
-        yyyyyyApi: new YyyyyyingApi(config),
-        zzzzzzApi: new ZzzzzzingApi(config),
+        projectApi: new ProjectingApi(config),
+        projectSessionApi: new ProjectSessioningApi(config),
+        locationApi: new LocationingApi(config),
         userApi: new UserApi(config),
         chatbotApi: new ChatbotApi(config),
         authenticatedSecurityApi: new SecurityApi(config),
