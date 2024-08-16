@@ -39,7 +39,7 @@ import {
 } from "./pages/projects";
 import {dataProvider} from "./provider/dataProvider/dataProvider";
 import {ZzzzzzCreate, ZzzzzzEdit, ZzzzzzList, ZzzzzzShow} from "./pages/zzzzzzs";
-import {YyyyyyCreate, YyyyyyEdit, YyyyyyList, YyyyyyShow} from "./pages/yyyyyys";
+import {ProjectSessionCreate, ProjectSessionEdit, ProjectSessionList, ProjectSessionShow} from "./pages/projectSessions";
 import {ChatProvider} from "./context/chatBotProvider";
 import {ChatbotComponent} from "./components/chatBot/chatBotComponent";
 import {ProfilePage} from "./pages/profile";
@@ -118,11 +118,11 @@ const App: React.FC = () => {
                                             },
                                         },
                                         {
-                                            name: "yyyyyys",
-                                            list: "/yyyyyys",
-                                            show: "/yyyyyys/:id",
-                                            create: "/yyyyyys/new",
-                                            edit: "/yyyyyys/:id/edit",
+                                            name: "projectSessions",
+                                            list: "/projectSessions",
+                                            show: "/projectSessions/:id",
+                                            create: "/projectSessions/new",
+                                            edit: "/projectSessions/:id/edit",
                                             meta: {
                                                 // @ts-expect-error Ant Design Icon's v5.0.1 has an issue with @types/react@^18.2.66
                                                 icon: <ShoppingOutlined/>,
@@ -179,16 +179,16 @@ const App: React.FC = () => {
                                             </Route>
 
                                             <Route
-                                                path="/yyyyyys"
+                                                path="/projectPossesions"
                                                 element={
-                                                    <YyyyyyList>
+                                                    <ProjectSessionList>
                                                         <Outlet/>
-                                                    </YyyyyyList>
+                                                    </ProjectSessionList>
                                                 }
                                             >
-                                                <Route path="new" element={<YyyyyyCreate/>}/>
-                                                <Route path=":id" element={<YyyyyyShow/>}/>
-                                                <Route path=":id/edit" element={<YyyyyyEdit/>}/>
+                                                <Route path="new" element={<ProjectSessionCreate/>}/>
+                                                <Route path=":id" element={<ProjectSessionShow/>}/>
+                                                <Route path=":id/edit" element={<ProjectSessionEdit/>}/>
                                             </Route>
 
                                             <Route

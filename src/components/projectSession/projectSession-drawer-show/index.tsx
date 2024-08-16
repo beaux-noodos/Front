@@ -10,8 +10,8 @@ import {
 import {List, Typography, Space, theme, Card, Grid, Flex} from "antd";
 import {useSearchParams} from "react-router-dom";
 import {Drawer} from "../../drawer";
-import type {IYyyyyy} from "../../../interfaces";
-import {YyyyyyButtonAction} from "../yyyyyyy-button-action";
+import type {IProjectSession, IYyyyyy} from "../../../interfaces";
+import {ProjectSessionButtonAction} from "../projectSession-button-action";
 import React from "react";
 import {EnvironmentOutlined, MailOutlined} from "@ant-design/icons";
 
@@ -21,7 +21,7 @@ type Props = {
     onEdit?: () => void;
 };
 
-export const YyyyyyDrawerShow = (props: Props) => {
+export const ProjectSessionDrawerShow = (props: Props) => {
     const getToPath = useGetToPath();
     const [searchParams] = useSearchParams();
     const go = useGo();
@@ -30,12 +30,12 @@ export const YyyyyyDrawerShow = (props: Props) => {
     const {token} = theme.useToken();
     const breakpoint = Grid.useBreakpoint();
 
-    const {queryResult} = useShow<IYyyyyy, HttpError>({
-        resource: "yyyyyys",
+    const {queryResult} = useShow<IProjectSession, HttpError>({
+        resource: "projectSessions",
         id: props?.id, // when undefined, id will be read from the URL.
     });
 
-    const yyyyyy = queryResult.data?.data;
+    const projectSession = queryResult.data?.data;
 
     const handleDrawerClose = () => {
         if (props?.onClose) {
@@ -66,9 +66,9 @@ export const YyyyyyDrawerShow = (props: Props) => {
         }
 
         return go({
-            to: `${editUrl("yyyyyys", yyyyyy?.id || "")}`,
+            to: `${editUrl("projectSessions", projectSession?.id || "")}`,
             query: {
-                to: "/yyyyyys",
+                to: "/projectSessions",
             },
             options: {
                 keepQuery: true,
@@ -106,7 +106,7 @@ export const YyyyyyDrawerShow = (props: Props) => {
                                 title: t("date.creation_datetime"),
                                 // @ts-expect-error Ant Design Icon's v5.0.1 has an issue with @types/react@^18.2.66
                                 icon: <MailOutlined style={{ color: token.colorPrimary }} />,
-                                value: <Typography.Text>{yyyyyy?.creation_datetime}</Typography.Text>,
+                                value: <Typography.Text>{projectSession?.creation_datetime}</Typography.Text>,
                             },
                             {
                                 title: t("date.updated_at"),
@@ -120,7 +120,7 @@ export const YyyyyyDrawerShow = (props: Props) => {
                                                 color:  token.colorText
                                             }}
                                         >
-                                            {yyyyyy?.updated_at}
+                                            {projectSession?.updated_at}
                                         </Typography.Text>
                                     </Space>
                                 ),
@@ -144,7 +144,7 @@ export const YyyyyyDrawerShow = (props: Props) => {
                     />
                 </Card>
             </Flex>
-            <YyyyyyButtonAction yyyyyy={yyyyyy} handleDrawerClose={handleDrawerClose} handleDrawerEdit={handleDrawerEdit} />
+            <ProjectSessionButtonAction projectSession={projectSession} handleDrawerClose={handleDrawerClose} handleDrawerEdit={handleDrawerEdit} />
         </Drawer>
     );
 };

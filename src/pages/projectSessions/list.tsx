@@ -2,9 +2,9 @@ import {useGo, useNavigation, useTranslate} from "@refinedev/core";
 import {CreateButton, List} from "@refinedev/antd";
 import {type PropsWithChildren} from "react";
 import {useLocation} from "react-router-dom";
-import {YyyyyyListTable} from "../../components/yyyyyy/yyyyyy-list-table";
+import {ProjectionSessionListTable} from "../../components/projectSession/projectSession-list-table";
 
-export const YyyyyyList = ({children}: PropsWithChildren) => {
+export const ProjectSessionList = ({children}: PropsWithChildren) => {
     const go = useGo();
     const {pathname} = useLocation();
     const {createUrl} = useNavigation();
@@ -35,7 +35,7 @@ export const YyyyyyList = ({children}: PropsWithChildren) => {
                 </CreateButton>,
             ]}
         >
-            <YyyyyyListTable />
+            <ProjectionSessionListTable />
             {children}
         </List>
     );

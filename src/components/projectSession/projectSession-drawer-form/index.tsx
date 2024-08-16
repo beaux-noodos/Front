@@ -27,7 +27,7 @@ type Props = {
     onMutationSuccess?: () => void;
 };
 
-export const YyyyyyDrawerForm = (props: Props) => {
+export const ProjectSessionDrawerForm = (props: Props) => {
     const getToPath = useGetToPath();
     const [searchParams] = useSearchParams();
     const go = useGo();
