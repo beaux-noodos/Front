@@ -102,16 +102,6 @@ export const CommentModal: React.FC<ICommentModalProps> = ({
               </div>
 
               <div>
-                <Button
-                  style={{
-                    borderRadius: "20px",
-                    backgroundColor: "#1C7430",
-                    color: "white",
-                  }}
-                  onClick={showPdfModal} // Show the PDF modal on click
-                >
-                  download
-                </Button>
               </div>
             </div>
             <div
@@ -214,16 +204,6 @@ export const CommentModal: React.FC<ICommentModalProps> = ({
                 </Avatar.Group>
               </div>
               <div>
-                <Button
-                  style={{
-                    borderRadius: "20px",
-                    backgroundColor: "#1C7430",
-                    color: "white",
-                  }}
-                  onClick={showPdfModal} // Show the PDF modal on click
-                >
-                  Justificatif
-                </Button>
               </div>
             </div>
             <div style={{ padding: "16px", borderTop: "1px solid #e8e8e8" }}>
