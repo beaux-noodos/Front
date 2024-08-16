@@ -917,6 +917,7 @@ export interface Signalisation {
 
 export const StatusEnum = {
     Planning: 'PLANNING',
+    InProgress: 'IN_PROGRESS',
     Confirmed: 'CONFIRMED',
     Completed: 'COMPLETED'
 } as const;
@@ -1115,11 +1116,154 @@ export interface Whoami {
 }
 
 /**
+ * CategoryApi - axios parameter creator
+ * @export
+ */
+export const CategoryApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary categories.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllCategoriesId: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/categories`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * CategoryApi - functional programming interface
+ * @export
+ */
+export const CategoryApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CategoryApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary categories.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllCategoriesId(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ProjectCategory>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllCategoriesId(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CategoryApi.getAllCategoriesId']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * CategoryApi - factory interface
+ * @export
+ */
+export const CategoryApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CategoryApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary categories.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllCategoriesId(options?: any): AxiosPromise<Array<ProjectCategory>> {
+            return localVarFp.getAllCategoriesId(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * CategoryApi - object-oriented interface
+ * @export
+ * @class CategoryApi
+ * @extends {BaseAPI}
+ */
+export class CategoryApi extends BaseAPI {
+    /**
+     * 
+     * @summary categories.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CategoryApi
+     */
+    public getAllCategoriesId(options?: RawAxiosRequestConfig) {
+        return CategoryApiFp(this.configuration).getAllCategoriesId(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * ChatbotApi - axios parameter creator
  * @export
  */
 export const ChatbotApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @summary user.
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllUserPromptId: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getAllUserPromptId', 'id', id)
+            const localVarPath = `/technicalSolution/{id}/prompts`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @summary Obtain information from the chatbot.
@@ -1181,7 +1325,7 @@ export const ChatbotApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('getChatbotTechnicalInformation', 'tsid', tsid)
             // verify required parameter 'prompt' is not null or undefined
             assertParamExists('getChatbotTechnicalInformation', 'prompt', prompt)
-            const localVarPath = `/users/{id}/technical-solution/{tsid}/chat`
+            const localVarPath = `/users/{id}/technicalSolution/{tsid}/chat`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)))
                 .replace(`{${"tsid"}}`, encodeURIComponent(String(tsid)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1227,7 +1371,7 @@ export const ChatbotApiAxiosParamCreator = function (configuration?: Configurati
             assertParamExists('putChatbotTechnicalInformation', 'tsid', tsid)
             // verify required parameter 'prompt' is not null or undefined
             assertParamExists('putChatbotTechnicalInformation', 'prompt', prompt)
-            const localVarPath = `/technical-solution/{tsid}/prompt`
+            const localVarPath = `/technicalSolution/{tsid}/prompt`
                 .replace(`{${"tsid"}}`, encodeURIComponent(String(tsid)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1268,6 +1412,19 @@ export const ChatbotApiAxiosParamCreator = function (configuration?: Configurati
 export const ChatbotApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = ChatbotApiAxiosParamCreator(configuration)
     return {
+        /**
+         * 
+         * @summary user.
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllUserPromptId(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Prompt>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllUserPromptId(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ChatbotApi.getAllUserPromptId']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
         /**
          * 
          * @summary Obtain information from the chatbot.
@@ -1323,6 +1480,16 @@ export const ChatbotApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
+         * @summary user.
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllUserPromptId(id: string, options?: any): AxiosPromise<Array<Prompt>> {
+            return localVarFp.getAllUserPromptId(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Obtain information from the chatbot.
          * @param {string} id 
          * @param {string} prompt The question to ask the chatbot about.
@@ -1365,6 +1532,18 @@ export const ChatbotApiFactory = function (configuration?: Configuration, basePa
  * @extends {BaseAPI}
  */
 export class ChatbotApi extends BaseAPI {
+    /**
+     * 
+     * @summary user.
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChatbotApi
+     */
+    public getAllUserPromptId(id: string, options?: RawAxiosRequestConfig) {
+        return ChatbotApiFp(this.configuration).getAllUserPromptId(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Obtain information from the chatbot.
@@ -1823,7 +2002,7 @@ export const ProjectSessioningApiAxiosParamCreator = function (configuration?: C
             assertParamExists('crupdateProjectSessionById', 'pid', pid)
             // verify required parameter 'projectSession' is not null or undefined
             assertParamExists('crupdateProjectSessionById', 'projectSession', projectSession)
-            const localVarPath = `/projects/{xid}/project-sessions/{pid}`
+            const localVarPath = `/projects/{xid}/projectSessions/{pid}`
                 .replace(`{${"xid"}}`, encodeURIComponent(String(xid)))
                 .replace(`{${"pid"}}`, encodeURIComponent(String(pid)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1868,7 +2047,7 @@ export const ProjectSessioningApiAxiosParamCreator = function (configuration?: C
             assertParamExists('getProjectSessionById', 'xid', xid)
             // verify required parameter 'pid' is not null or undefined
             assertParamExists('getProjectSessionById', 'pid', pid)
-            const localVarPath = `/projects/{xid}/project-sessions/{pid}`
+            const localVarPath = `/projects/{xid}/projectSessions/{pid}`
                 .replace(`{${"xid"}}`, encodeURIComponent(String(xid)))
                 .replace(`{${"pid"}}`, encodeURIComponent(String(pid)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1914,7 +2093,7 @@ export const ProjectSessioningApiAxiosParamCreator = function (configuration?: C
             assertParamExists('getProjectSessions', 'page', page)
             // verify required parameter 'pageSize' is not null or undefined
             assertParamExists('getProjectSessions', 'pageSize', pageSize)
-            const localVarPath = `/projects/{xid}/project-sessions`
+            const localVarPath = `/projects/{xid}/projectSessions`
                 .replace(`{${"xid"}}`, encodeURIComponent(String(xid)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1970,7 +2149,7 @@ export const ProjectSessioningApiAxiosParamCreator = function (configuration?: C
             assertParamExists('getUserProjectSessions', 'page', page)
             // verify required parameter 'pageSize' is not null or undefined
             assertParamExists('getUserProjectSessions', 'pageSize', pageSize)
-            const localVarPath = `/users/{id}/project-sessions`
+            const localVarPath = `/users/{id}/projectSessions`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3132,6 +3311,44 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
+         * @summary Récupérer les cours suivis par l\'utilisateur
+         * @param {string} id ID de l\&#39;utilisateur
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserInvestedProjects: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getUserInvestedProjects', 'id', id)
+            const localVarPath = `/users/{id}/invested/projects`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Récupérer les notifications de l\'utilisateur
          * @param {string} id ID de l\&#39;utilisateur
          * @param {*} [options] Override http request option.
@@ -3217,18 +3434,14 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * 
          * @summary Récupérer les cours suivis par l\'utilisateur
          * @param {string} id ID de l\&#39;utilisateur
-         * @param {string} pid ID de l\&#39;projects
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserSubscribedProjects: async (id: string, pid: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getUserSolveProjects: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('getUserSubscribedProjects', 'id', id)
-            // verify required parameter 'pid' is not null or undefined
-            assertParamExists('getUserSubscribedProjects', 'pid', pid)
-            const localVarPath = `/users/{id}/projects/{pid}/subscribe`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-                .replace(`{${"pid"}}`, encodeURIComponent(String(pid)));
+            assertParamExists('getUserSolveProjects', 'id', id)
+            const localVarPath = `/users/{id}/solve/projects`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3398,6 +3611,19 @@ export const UserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Récupérer les cours suivis par l\'utilisateur
+         * @param {string} id ID de l\&#39;utilisateur
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getUserInvestedProjects(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Project>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserInvestedProjects(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.getUserInvestedProjects']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Récupérer les notifications de l\'utilisateur
          * @param {string} id ID de l\&#39;utilisateur
          * @param {*} [options] Override http request option.
@@ -3427,14 +3653,13 @@ export const UserApiFp = function(configuration?: Configuration) {
          * 
          * @summary Récupérer les cours suivis par l\'utilisateur
          * @param {string} id ID de l\&#39;utilisateur
-         * @param {string} pid ID de l\&#39;projects
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUserSubscribedProjects(id: string, pid: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Project>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserSubscribedProjects(id, pid, options);
+        async getUserSolveProjects(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Project>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserSolveProjects(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserApi.getUserSubscribedProjects']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.getUserSolveProjects']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -3500,6 +3725,16 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
+         * @summary Récupérer les cours suivis par l\'utilisateur
+         * @param {string} id ID de l\&#39;utilisateur
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserInvestedProjects(id: string, options?: any): AxiosPromise<Array<Project>> {
+            return localVarFp.getUserInvestedProjects(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Récupérer les notifications de l\'utilisateur
          * @param {string} id ID de l\&#39;utilisateur
          * @param {*} [options] Override http request option.
@@ -3523,12 +3758,11 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * 
          * @summary Récupérer les cours suivis par l\'utilisateur
          * @param {string} id ID de l\&#39;utilisateur
-         * @param {string} pid ID de l\&#39;projects
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserSubscribedProjects(id: string, pid: string, options?: any): AxiosPromise<Array<Project>> {
-            return localVarFp.getUserSubscribedProjects(id, pid, options).then((request) => request(axios, basePath));
+        getUserSolveProjects(id: string, options?: any): AxiosPromise<Array<Project>> {
+            return localVarFp.getUserSolveProjects(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3591,6 +3825,18 @@ export class UserApi extends BaseAPI {
 
     /**
      * 
+     * @summary Récupérer les cours suivis par l\'utilisateur
+     * @param {string} id ID de l\&#39;utilisateur
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public getUserInvestedProjects(id: string, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).getUserInvestedProjects(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Récupérer les notifications de l\'utilisateur
      * @param {string} id ID de l\&#39;utilisateur
      * @param {*} [options] Override http request option.
@@ -3618,13 +3864,12 @@ export class UserApi extends BaseAPI {
      * 
      * @summary Récupérer les cours suivis par l\'utilisateur
      * @param {string} id ID de l\&#39;utilisateur
-     * @param {string} pid ID de l\&#39;projects
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public getUserSubscribedProjects(id: string, pid: string, options?: RawAxiosRequestConfig) {
-        return UserApiFp(this.configuration).getUserSubscribedProjects(id, pid, options).then((request) => request(this.axios, this.basePath));
+    public getUserSolveProjects(id: string, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).getUserSolveProjects(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

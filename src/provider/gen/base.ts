@@ -19,7 +19,7 @@ import type { Configuration } from './configuration';
 import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 
-export const BASE_PATH = "https://virtserver.swaggerhub.com/LOVAANDHERILALARAFAN/hackatho/latest".replace(/\/+$/, "");
+export const BASE_PATH = "http://bnbs-hackathon-api-alb-dev-1521698521.eu-west-3.elb.amazonaws.com/".replace(/\/+$/, "");
 
 /**
  *
