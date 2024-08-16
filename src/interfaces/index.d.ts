@@ -120,7 +120,7 @@ export interface IYyyyyy {
 }
 
 
-export interface IZzzzzz {
+export interface ILocation {
   id: number;
   creation_datetime: string;
   updated_at: string;

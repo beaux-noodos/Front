@@ -38,11 +38,11 @@ import {
     ProjectShow
 } from "./pages/projects";
 import {dataProvider} from "./provider/dataProvider/dataProvider";
-import {ZzzzzzCreate, ZzzzzzEdit, ZzzzzzList, ZzzzzzShow} from "./pages/zzzzzzs";
 import {ProjectSessionCreate, ProjectSessionEdit, ProjectSessionList, ProjectSessionShow} from "./pages/projectSessions";
 import {ChatProvider} from "./context/chatBotProvider";
 import {ChatbotComponent} from "./components/chatBot/chatBotComponent";
 import {ProfilePage} from "./pages/profile";
+import { LocationCreate, LocationEdit, LocationList, LocationShow } from "./pages/locations";
 
 const App: React.FC = () => {
     // This hook is used to automatically login the user.
@@ -129,11 +129,11 @@ const App: React.FC = () => {
                                             },
                                         },
                                         {
-                                            name: "zzzzzzs",
-                                            list: "/zzzzzzs",
-                                            show: "/zzzzzzs/:id",
-                                            create: "/zzzzzzs/new",
-                                            edit: "/zzzzzzs/:id/edit",
+                                            name: "locations",
+                                            list: "/locations",
+                                            show: "/locations/:id",
+                                            create: "/locations/new",
+                                            edit: "/locations/:id/edit",
                                             meta: {
                                                 // @ts-expect-error Ant Design Icon's v5.0.1 has an issue with @types/react@^18.2.66
                                                 icon: <ShoppingOutlined/>,
@@ -192,16 +192,16 @@ const App: React.FC = () => {
                                             </Route>
 
                                             <Route
-                                                path="/zzzzzzs"
+                                                path="/locations"
                                                 element={
-                                                    <ZzzzzzList>
+                                                    <LocationList>
                                                         <Outlet/>
-                                                    </ZzzzzzList>
+                                                    </LocationList>
                                                 }
                                             >
-                                                <Route path="new" element={<ZzzzzzCreate/>}/>
-                                                <Route path=":id" element={<ZzzzzzShow/>}/>
-                                                <Route path=":id/edit" element={<ZzzzzzEdit/>}/>
+                                                <Route path="new" element={<LocationCreate/>}/>
+                                                <Route path=":id" element={<LocationShow/>}/>
+                                                <Route path=":id/edit" element={<LocationEdit/>}/>
                                             </Route>
 
                                             <Route

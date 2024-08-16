@@ -14,7 +14,7 @@ import {
   Flex,
   Spin, Select,
 } from "antd";
-import type {IZzzzzz} from "../../../interfaces";
+import type {ILocation} from "../../../interfaces";
 import { useSearchParams } from "react-router-dom";
 import { Drawer } from "../../drawer";
 import { useStyles } from "./styled";
@@ -27,7 +27,7 @@ type Props = {
   onMutationSuccess?: () => void;
 };
 
-export const ZzzzzzDrawerForm = (props: Props) => {
+export const LocationDrawerForm = (props: Props) => {
   const getToPath = useGetToPath();
   const [searchParams] = useSearchParams();
   const go = useGo();
@@ -37,7 +37,7 @@ export const ZzzzzzDrawerForm = (props: Props) => {
   const { styles, theme } = useStyles();
 
   const { drawerProps, formProps, close, saveButtonProps, formLoading } =
-    useDrawerForm<IZzzzzz>({
+    useDrawerForm<ILocation>({
       resource: "zzzzzzs",
       id: props?.id, // when undefined, id will be read from the URL.
       action: props.action,

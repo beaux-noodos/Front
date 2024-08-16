@@ -10,10 +10,11 @@ import {
 import {List, Typography, Space, theme, Card, Grid, Flex} from "antd";
 import {useSearchParams} from "react-router-dom";
 import {Drawer} from "../../drawer";
-import type {IZzzzzz} from "../../../interfaces";
-import {ZzzzzzButtonAction} from "../zzzzzz-button-action";
+import type {ILocation} from "../../../interfaces";
+
 import React from "react";
 import {EnvironmentOutlined, MailOutlined} from "@ant-design/icons";
+import { LocationButtonAction } from "../location-button-action";
 
 type Props = {
     id?: BaseKey;
@@ -21,7 +22,7 @@ type Props = {
     onEdit?: () => void;
 };
 
-export const ZzzzzzDrawerShow = (props: Props) => {
+export const LocationDrawerShow = (props: Props) => {
     const getToPath = useGetToPath();
     const [searchParams] = useSearchParams();
     const go = useGo();
@@ -30,12 +31,12 @@ export const ZzzzzzDrawerShow = (props: Props) => {
     const {token} = theme.useToken();
     const breakpoint = Grid.useBreakpoint();
 
-    const {queryResult} = useShow<IZzzzzz, HttpError>({
-        resource: "zzzzzzs",
+    const {queryResult} = useShow<ILocation, HttpError>({
+        resource: "locations",
         id: props?.id, // when undefined, id will be read from the URL.
     });
 
-    const zzzzzz = queryResult.data?.data;
+    const location = queryResult.data?.data;
 
     const handleDrawerClose = () => {
         if (props?.onClose) {
@@ -66,9 +67,9 @@ export const ZzzzzzDrawerShow = (props: Props) => {
         }
 
         return go({
-            to: `${editUrl("zzzzzzs", zzzzzz?.id || "")}`,
+            to: `${editUrl("locations", location?.id || "")}`,
             query: {
-                to: "/zzzzzzs",
+                to: "/locations",
             },
             options: {
                 keepQuery: true,
@@ -106,7 +107,7 @@ export const ZzzzzzDrawerShow = (props: Props) => {
                                 title: t("date.creation_datetime"),
                                 // @ts-expect-error Ant Design Icon's v5.0.1 has an issue with @types/react@^18.2.66
                                 icon: <MailOutlined style={{ color: token.colorPrimary }} />,
-                                value: <Typography.Text>{zzzzzz?.creation_datetime}</Typography.Text>,
+                                value: <Typography.Text>{location?.creation_datetime}</Typography.Text>,
                             },
                             {
                                 title: t("date.updated_at"),
@@ -120,7 +121,7 @@ export const ZzzzzzDrawerShow = (props: Props) => {
                                                 color:  token.colorText
                                             }}
                                         >
-                                            {zzzzzz?.updated_at}
+                                            {location?.updated_at}
                                         </Typography.Text>
                                     </Space>
                                 ),
@@ -144,7 +145,7 @@ export const ZzzzzzDrawerShow = (props: Props) => {
                     />
                 </Card>
             </Flex>
-            <ZzzzzzButtonAction zzzzzz={zzzzzz} handleDrawerClose={handleDrawerClose} handleDrawerEdit={handleDrawerEdit} />
+            <LocationButtonAction location={location} handleDrawerClose={handleDrawerClose} handleDrawerEdit={handleDrawerEdit} />
         </Drawer>
     );
 };

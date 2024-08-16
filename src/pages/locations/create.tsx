@@ -1,14 +1,14 @@
 import { useGetToPath, useGo } from "@refinedev/core";
 import { useSearchParams } from "react-router-dom";
-import {ZzzzzzDrawerForm} from "../../components/zzzzzz/zzzzzz-drawer-form";
+import {LocationDrawerForm} from "../../components/location/location-drawer-form";
 
-export const ZzzzzzCreate = () => {
+export const LocationCreate = () => {
   const getToPath = useGetToPath();
   const [searchParams] = useSearchParams();
   const go = useGo();
 
   return (
-    <ZzzzzzDrawerForm
+    <LocationDrawerForm
       action="create"
       onMutationSuccess={() => {
         go({
