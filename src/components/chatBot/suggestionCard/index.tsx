@@ -2,56 +2,18 @@ import React from "react";
 import { Card, Col, Row } from "antd";
 import { getCachedUser } from "../../../utils/getCachedUser";
 import { StarFilled } from "@ant-design/icons";
+import {suggestionsForInvestor, suggestionsForProjectHolder} from "../suggestion";
 
 const { Meta } = Card;
-
-const suggestionsForProjectHolder = [
-  {
-    title: "Irrigation Efficace",
-    description: "Économisez l'eau avec l'irrigation goutte-à-goutte.",
-  },
-  {
-    title: "Fertilisation Précise",
-    description: "Appliquez les engrais selon les besoins.",
-  },
-  {
-    title: "Réduction des Émissions",
-    description: "Minimisez les gaz à effet de serre.",
-  },
-  {
-    title: "Conservation des Sols",
-    description: "Protégez les sols et soutenez la biodiversité.",
-  },
-];
-
-const suggestionsForInvestor = [
-    {
-      title: "Projet d'Agriculture Connectée",
-      description: "Optimisez l'irrigation et la gestion des cultures.",
-    },
-    {
-      title: "Technologie de Surveillance Environnementale",
-      description: "Réduisez l'impact environnemental.",
-    },
-    {
-      title: "Développement de Bioénergie",
-      description: "Transformez les déchets organiques en énergie.",
-    },
-    {
-      title: "Agriculture Durable",
-      description: "Soutenez la conservation des sols et la biodiversité.",
-    },
-  ];
-  
 
 interface SuggestionCardProps {
   onSelectSuggestion: (title: string) => void;
 }
 
-export const SuggestionCard: React.FC<SuggestionCardProps> = ({
-  onSelectSuggestion,
-}) => {
-  const { role } = getCachedUser();
+export const SuggestionCard: React.FC<SuggestionCardProps> = ({onSelectSuggestion}) => {
+
+  const role = "MANAGER";
+  // const { role } = getCachedUser();
   console.log(role);
 
   let suggestions: any[];

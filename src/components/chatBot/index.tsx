@@ -1,2 +1,2 @@
-export * from "./chatBotComponent";
+export * from "./chatBot-component";
 export * from "./suggestionCard"
