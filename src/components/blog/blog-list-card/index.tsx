@@ -6,6 +6,7 @@ import {
     useTranslate,
 } from "@refinedev/core";
 import {
+    Avatar,
     Button,
     Card,
     Col,
@@ -17,11 +18,12 @@ import {
     Skeleton,
     Typography,
 } from "antd";
-import {useLocation} from "react-router-dom";
 import React, {useState, useEffect} from "react";
-import {IUser} from "../../../interfaces";
+import {IUser, IXxxxxx} from "../../../interfaces";
 import {CommentButton, LikeButton} from "../../../button";
 import {CommentModal} from "../../modal/commentModal";
+import {EyeOutlined, UserOutlined} from "@ant-design/icons";
+import {formatDate} from "../../../utils/formatDate";
 
 export const BlogListCard = () => {
     const [current, setCurrent] = useState(1);
@@ -43,8 +45,8 @@ export const BlogListCard = () => {
         setIsModalOpen(false);
     };
 
-    const {data, isLoading, isError, refetch} = useList<IUser, HttpError>({
-        resource: 'users',
+    const {data, isLoading, isError, refetch} = useList<IXxxxxx, HttpError>({
+        resource: 'xxxxxxs',
         pagination: {
             current: current,
             pageSize: pageSize,
@@ -59,7 +61,7 @@ export const BlogListCard = () => {
         return <div>Error loading data</div>;
     }
 
-    const {data: users, total} = data || {data: [], total: 0};
+    const {data: xxxxxxs, total} = data || {data: [], total: 0};
 
     // Example comments data with dates
     const comments = [
@@ -72,47 +74,71 @@ export const BlogListCard = () => {
         <>
             <Divider style={{margin: "16px 0px"}}/>
             <Row gutter={[16, 16]}>
-                {users.map((user) => (
-                    <Col key={user.id} span={8}>
+                {xxxxxxs.map((xxxxxx) => (
+                    <Col key={xxxxxx.id} span={8}>
                         <Card
                             hoverable
                             bordered={false}
                             cover={
                                 <img
-                                    src={user.profilePicture}
-                                    alt={user.first_name}
+                                    src={xxxxxx.profilePicture}
+                                    alt={xxxxxx?.user?.first_name}
                                     style={{height: 160, objectFit: "cover"}}
                                 />
                             }
                             actions={[
                                 <Flex
                                     key="actions"
-
-                                    style={{
-                                        padding: "0 16px",
-                                    }}
-                                >
-                                    <LikeButton initialLiked={false}/>
-                                    <CommentButton showModal={() => showModal(user)}/>
+                                    style={{padding: "0 16px", display: 'flex', justifyContent: 'space-between'}}>
+                                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                                        <div onClick={(e) => e.stopPropagation()}>
+                                            <LikeButton initialLiked={false}/>
+                                        </div>
+                                        <div>
+                                            <CommentButton showModal={() => showModal(xxxxxx?.user)}/>
+                                        </div>
+                                    </div>
+                                    <div onClick={(e) => e.stopPropagation()} style={{display: 'flex', alignItems: 'center', cursor: 'default'}} >
+                                        <EyeOutlined style={{marginRight: 4}}/>
+                                        <Typography.Text>
+                                            {xxxxxx.views} views
+                                        </Typography.Text>
+                                    </div>
                                 </Flex>,
                             ]}
-                            onClick={() => showModal(user)}
+                            onClick={() => showModal(xxxxxx?.user)}
                         >
                             <Card.Meta
+                                avatar={
+                                    <Avatar
+                                        src={xxxxxx?.user?.avatarUrl}
+                                        icon={<UserOutlined/>}
+                                        alt={xxxxxx?.user?.first_name}
+                                    />
+                                }
                                 title={
                                     <Typography.Title level={4}>
-                                        {user.first_name}
+                                        {xxxxxx?.user?.first_name}
                                     </Typography.Title>
                                 }
                                 description={
                                     <>
-                                        <Typography.Text>
-                                            {user.email}
+                                        <Typography.Text type="secondary" style={{
+                                            display: "block",
+                                            marginBottom: 8,
+                                            marginTop: -20,
+                                            fontSize: ".7rem"
+                                        }}>
+                                            {formatDate(xxxxxx?.creation_datetime)}
                                         </Typography.Text>
-                                        <br/>
-                                        <Typography.Text>
-                                            {user.role}
-                                        </Typography.Text>
+                                        <Flex style={{alignItems: "center"}}>
+                                            <Typography.Text style={{marginRight: 8}}>
+                                                {xxxxxx?.user?.first_name}
+                                            </Typography.Text>
+                                        </Flex>
+                                        <Typography.Paragraph>
+                                            {xxxxxx?.user?.description}
+                                        </Typography.Paragraph>
                                     </>
                                 }
                             />
