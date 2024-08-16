@@ -35,7 +35,9 @@ export const projectProvider: DataProvider = {
         };
     },
     create: async ({ resource, variables }: CreateParams) => {
-        const response = await projectApi.crupdateProjectById("", variables);
+        const id = variables?.id;
+
+        const response = await projectApi.crupdateProjectById(id, variables);
         return {
             data: response.data,
         };

@@ -11,9 +11,10 @@ import {List, Typography, Space, theme, Card, Grid, Flex} from "antd";
 import {useSearchParams} from "react-router-dom";
 import {Drawer} from "../../drawer";
 import type {IUser, IXxxxxx} from "../../../interfaces";
-import {XxxxxxButtonAction} from "../xxxxxx-button-action";
+import {ProjectButtonAction, XxxxxxButtonAction} from "../project-button-action";
 import React from "react";
 import {EnvironmentOutlined, MailOutlined} from "@ant-design/icons";
+import {ProjectCreate} from "../../../pages/projects";
 
 type Props = {
     id?: BaseKey;
@@ -21,7 +22,7 @@ type Props = {
     onEdit?: () => void;
 };
 
-export const XxxxxxDrawerShow = (props: Props) => {
+export const ProjectDrawerShow = (props: Props) => {
     const getToPath = useGetToPath();
     const [searchParams] = useSearchParams();
     const go = useGo();
@@ -31,7 +32,7 @@ export const XxxxxxDrawerShow = (props: Props) => {
     const breakpoint = Grid.useBreakpoint();
 
     const {queryResult} = useShow<IXxxxxx, HttpError>({
-        resource: "xxxxxxs",
+        resource: "projects",
         id: props?.id, // when undefined, id will be read from the URL.
     });
 
@@ -66,9 +67,9 @@ export const XxxxxxDrawerShow = (props: Props) => {
         }
 
         return go({
-            to: `${editUrl("xxxxxxs", xxxxxx?.id || "")}`,
+            to: `${editUrl("projects", xxxxxx?.id || "")}`,
             query: {
-                to: "/xxxxxxs",
+                to: "/projects",
             },
             options: {
                 keepQuery: true,
@@ -161,7 +162,7 @@ export const XxxxxxDrawerShow = (props: Props) => {
                     />
                 </Card>
             </Flex>
-            <XxxxxxButtonAction xxxxxx={xxxxxx} handleDrawerClose={handleDrawerClose} handleDrawerEdit={handleDrawerEdit} />
+            <ProjectButtonAction xxxxxx={xxxxxx} handleDrawerClose={handleDrawerClose} handleDrawerEdit={handleDrawerEdit} />
         </Drawer>
     );
 };

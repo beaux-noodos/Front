@@ -19,8 +19,9 @@ import {
 } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import { useLocation } from "react-router-dom";
+import {ProjectCreate} from "../../../pages/projects";
 
-export const XxxxxxListTable = () => {
+export const ProjectListTable = () => {
     const t = useTranslate();
     const go = useGo();
     const { pathname } = useLocation();
@@ -108,7 +109,7 @@ export const XxxxxxListTable = () => {
                         <Button
                             icon={<EyeOutlined />}
                             onClick={() => go({
-                                to: `${showUrl("xxxxxxs", record.id)}`,
+                                to: `${showUrl("projects", record.id)}`,
                                 query: { to: pathname },
                                 options: { keepQuery: true },
                                 type: "replace",

@@ -31,7 +31,12 @@ import {useAutoLoginForDemo} from "./hooks";
 
 import "@refinedev/antd/dist/reset.css";
 import {UserCreate, UserEdit, UserList, UserShow} from "./pages/users";
-import {XxxxxxCreate, XxxxxxEdit, XxxxxxList, XxxxxxShow} from "./pages/xxxxxxs";
+import {
+    ProjectCreate,
+    ProjectEdit,
+    ProjectList,
+    ProjectShow
+} from "./pages/projects";
 import {dataProvider} from "./provider/dataProvider/dataProvider";
 import {ZzzzzzCreate, ZzzzzzEdit, ZzzzzzList, ZzzzzzShow} from "./pages/zzzzzzs";
 import {YyyyyyCreate, YyyyyyEdit, YyyyyyList, YyyyyyShow} from "./pages/yyyyyys";
@@ -102,10 +107,11 @@ const App: React.FC = () => {
                                             },
                                         },
                                         {
-                                            name: "xxxxxxs",
-                                            list: "/xxxxxxs",
-                                            show: "/xxxxxxs/:id",
-                                            edit: "/xxxxxxs/:id/edit",
+                                            name: "projects",
+                                            list: "/projects",
+                                            show: "/projects/:id",
+                                            create: "/projects/new",
+                                            edit: "/projects/:id/edit",
                                             meta: {
                                                 // @ts-expect-error Ant Design Icon's v5.0.1 has an issue with @types/react@^18.2.66
                                                 icon: <ShoppingOutlined/>,
@@ -160,16 +166,16 @@ const App: React.FC = () => {
                                             <Route index element={<DashboardPage/>}/>
 
                                             <Route
-                                                path="/xxxxxxs"
+                                                path="/projects"
                                                 element={
-                                                    <XxxxxxList>
+                                                    <ProjectList>
                                                         <Outlet/>
-                                                    </XxxxxxList>
+                                                    </ProjectList>
                                                 }
                                             >
-                                                <Route path="new" element={<XxxxxxCreate/>}/>
-                                                <Route path=":id" element={<XxxxxxShow/>}/>
-                                                <Route path=":id/edit" element={<XxxxxxEdit/>}/>
+                                                <Route path="new" element={<ProjectCreate/>}/>
+                                                <Route path=":id" element={<ProjectShow/>}/>
+                                                <Route path=":id/edit" element={<ProjectEdit/>}/>
                                             </Route>
 
                                             <Route
