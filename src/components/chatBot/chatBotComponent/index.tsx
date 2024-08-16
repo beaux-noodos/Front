@@ -1,13 +1,14 @@
-import React, {useState} from 'react';
-import {Input, Button, List, Avatar, Typography, Drawer, Divider, theme, Space} from 'antd';
-import {MessageOutlined, RobotOutlined, SendOutlined} from '@ant-design/icons';
-import {useChat} from "../../../context/chatBotProvider";
+import React, { useState } from 'react';
+import { Input, Button, List, Avatar, Typography, Drawer, Divider, theme, Space } from 'antd';
+import { MessageOutlined, RobotOutlined, SendOutlined } from '@ant-design/icons';
+import { useChat } from "../../../context/chatBotProvider";
+import { SuggestionCard } from '../suggestionCard'; // Ensure correct import path
 
-const {TextArea} = Input;
-const {Text} = Typography;
+const { TextArea } = Input;
+const { Text } = Typography;
 
 export const ChatbotComponent: React.FC = () => {
-    const {messages, sendMessage} = useChat();
+    const { messages, sendMessage } = useChat();
     const [inputValue, setInputValue] = useState('');
     const [visible, setVisible] = useState(false);
 
@@ -20,14 +21,18 @@ export const ChatbotComponent: React.FC = () => {
         }
     };
 
+    const handleSelectSuggestion = (title: string) => {
+        setInputValue(title);
+    };
+
     return (
         <>
             <Button
                 type="primary"
                 shape="circle"
-                icon={<MessageOutlined/>}
+                icon={<MessageOutlined />}
                 size="large"
-                style={{position: 'fixed', bottom: '24px', right: '24px', zIndex: 1000}}
+                style={{ position: 'fixed', bottom: '24px', right: '24px', zIndex: 1000 }}
                 onClick={() => setVisible(true)}
             />
             <Drawer
@@ -35,8 +40,8 @@ export const ChatbotComponent: React.FC = () => {
                 placement="right"
                 onClose={() => setVisible(false)}
                 open={visible}
-                width={400}
-                bodyStyle={{padding: '20px'}}
+                width={650}
+                bodyStyle={{ padding: '20px' }}
             >
                 <List
                     dataSource={messages}
@@ -67,7 +72,7 @@ export const ChatbotComponent: React.FC = () => {
                                     }}>{item.text}</Text>
                             </div>
                             {item?.sender === 'user' && (
-                                <Avatar style={{marginLeft: '10px'}}>
+                                <Avatar style={{ marginLeft: '10px' }}>
                                     {item?.sender.charAt(0)}
                                 </Avatar>
                             )}
@@ -75,14 +80,17 @@ export const ChatbotComponent: React.FC = () => {
                     )}
                     locale={{
                         emptyText: (
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <RobotOutlined style={{ fontSize: '24px', marginRight: '8px', color: color.colorPrimary }} />
-                                <Text style={{color: color.colorTextTertiary}}>Start a new conversation</Text>
+                            <div>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent:'center', margin:'0px 0px 20px 0px' }}>
+                                    <RobotOutlined style={{ fontSize: '24px', marginRight: '8px', color: color.colorPrimary }} />
+                                    <Text style={{ color: color.colorTextTertiary }}>Start a new conversation</Text>
+                                </div>
+                                <SuggestionCard onSelectSuggestion={handleSelectSuggestion} />
                             </div>
                         )
                     }}
                 />
-                <Divider/>
+                <Divider />
                 <Space.Compact compact="true" style={{ display: 'flex', alignItems: 'start' }}>
                     <TextArea
                         rows={2}
