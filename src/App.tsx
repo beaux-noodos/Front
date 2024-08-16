@@ -40,7 +40,7 @@ import {
 import {dataProvider} from "./provider/dataProvider/dataProvider";
 import {ProjectSessionCreate, ProjectSessionEdit, ProjectSessionList, ProjectSessionShow} from "./pages/projectSessions";
 import {ChatProvider} from "./context/chatBotProvider";
-import {ChatbotComponent} from "./components/chatBot/chatBotComponent";
+import {ChatbotComponent} from "./components/chatBot/chatBot-component";
 import {ProfilePage} from "./pages/profile";
 import { LocationCreate, LocationEdit, LocationList, LocationShow } from "./pages/locations";
 
