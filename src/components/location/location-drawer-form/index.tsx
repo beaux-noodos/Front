@@ -38,7 +38,7 @@ export const LocationDrawerForm = (props: Props) => {
 
   const { drawerProps, formProps, close, saveButtonProps, formLoading } =
     useDrawerForm<ILocation>({
-      resource: "zzzzzzs",
+      resource: "locations",
       id: props?.id, // when undefined, id will be read from the URL.
       action: props.action,
       redirect: false,
@@ -83,7 +83,7 @@ export const LocationDrawerForm = (props: Props) => {
   };
 
 
-  const title = props.action === "edit" ? null : t("zzzzzzs.actions.add");
+  const title = props.action === "edit" ? null : t("locations.actions.add");
 
   return (
     <Drawer
