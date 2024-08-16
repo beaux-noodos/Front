@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Example - API
+ * Prehakaton - API
  * XYXYXY 
  *
  * The version of the OpenAPI document: latest
@@ -19,7 +19,7 @@ import type { Configuration } from './configuration';
 import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 
-export const BASE_PATH = "http://localhost:8080".replace(/\/+$/, "");
+export const BASE_PATH = "http://localhost".replace(/\/+$/, "");
 
 /**
  *
