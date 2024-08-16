@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import {Drawer, List, Input, Form, Button, Card, theme, Typography} from 'antd';
-import { v4 as uuidv4 } from 'uuid'; // For generating unique IDs
-import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import { Drawer, List, Input, Form, Button, Card, theme, Typography } from 'antd';
+import { v4 as uuidv4 } from 'uuid';
+import { EditOutlined, DeleteOutlined, PlusOutlined, RobotOutlined } from '@ant-design/icons';
+import { createAuthenticatedRequest } from "../../../provider/api";
+import { getCachedUser } from "../../../utils/getCachedUser";
 
 const { TextArea } = Input;
 
@@ -20,16 +22,43 @@ export const TrainingDrawer: React.FC<TrainingDrawerProps> = ({ visible, onClose
     const [todos, setTodos] = useState<Todo[]>([]);
     const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
     const [isFormVisible, setIsFormVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); // Loading state
     const [editForm] = Form.useForm();
 
     const { token } = theme.useToken();
+    const user = getCachedUser();
 
-    const handleAddTodo = () => {
-        const newTodo = editForm.getFieldsValue();
-        if (newTodo.title.trim() && newTodo.body.trim()) {
-            setTodos([...todos, { ...newTodo, id: uuidv4() }]);
-            editForm.resetFields(); // Clear form fields
-            setIsFormVisible(false); // Hide form after adding
+    const handleAddTodo = async () => {
+        try {
+            setIsLoading(true); // Start loading
+            const newTodo = editForm.getFieldsValue();
+            console.log(newTodo);
+
+            if (newTodo.prompt_category.trim() && newTodo.body.trim()) {
+                const toDomainTraining = {
+                    id: uuidv4(),
+                    ...newTodo
+                };
+
+                console.log(toDomainTraining);
+
+                // Attempt to update chatbot information
+              //  await chatbotApi.putChatbotTechnicalInformation(user?.id, toDomainTraining);
+
+                // Add the new todo to the state
+                setTodos([...todos, { ...newTodo, id: uuidv4() }]);
+
+                // Clear form fields
+                editForm.resetFields();
+
+                // Hide form after adding
+                setIsFormVisible(false);
+            }
+        } catch (error) {
+            console.error("Failed to add training:", error);
+            // Optionally, you can add additional error handling here, like displaying a notification or alert
+        } finally {
+            setIsLoading(false); // Stop loading
         }
     };
 
@@ -37,16 +66,6 @@ export const TrainingDrawer: React.FC<TrainingDrawerProps> = ({ visible, onClose
         setEditingTodoId(todo.id);
         editForm.setFieldsValue({ title: todo.title, body: todo.body });
         setIsFormVisible(true);
-    };
-
-    const handleUpdateTodo = () => {
-        const updatedTodo = editForm.getFieldsValue();
-        setTodos(todos.map(todo =>
-            todo.id === editingTodoId ? { ...todo, ...updatedTodo } : todo
-        ));
-        setEditingTodoId(null);
-        editForm.resetFields(); // Clear form fields
-        setIsFormVisible(false); // Hide form after updating
     };
 
     const handleDeleteTodo = (id: string) => {
@@ -63,6 +82,17 @@ export const TrainingDrawer: React.FC<TrainingDrawerProps> = ({ visible, onClose
         setEditingTodoId(null);
         editForm.resetFields(); // Clear form fields
     };
+
+    const { chatbotApi } = createAuthenticatedRequest();
+    const currentUser = getCachedUser();
+
+    useEffect(() => {
+        const fetchTodo = async () => {
+            console.log("fetching training")
+            const response = await chatbotApi.getAllUserPromptId(currentUser?.id);
+        };
+        fetchTodo();
+    }, [todos]);
 
     return (
         <Drawer
@@ -88,11 +118,36 @@ export const TrainingDrawer: React.FC<TrainingDrawerProps> = ({ visible, onClose
                             ]}
                         >
                             <List.Item.Meta
-                                title={<span style={{ color: token?.colorPrimary }}>{`${idx + 1} - ${todo.title}`}</span>}
+                                title={<span style={{ color: token?.colorPrimary }}>{`${idx + 1} - ${todo.prompt_category}`}</span>}
                                 description={todo.body}
                             />
                         </List.Item>
                     )}
+                    locale={{
+                        emptyText: (
+                            <div>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        margin: "0px 0px 20px 0px",
+                                    }}
+                                >
+                                    <RobotOutlined
+                                        style={{
+                                            fontSize: "24px",
+                                            marginRight: "8px",
+                                            color: token.colorPrimary,
+                                        }}
+                                    />
+                                    <Typography.Text style={{ color: token.colorTextTertiary }}>
+                                        Start a new training
+                                    </Typography.Text>
+                                </div>
+                            </div>
+                        ),
+                    }}
                 />
             </div>
 
@@ -100,7 +155,7 @@ export const TrainingDrawer: React.FC<TrainingDrawerProps> = ({ visible, onClose
                 type="dashed"
                 icon={<PlusOutlined />}
                 onClick={handleShowForm}
-                style={{ marginTop: '20px', width: '100%', color: token?.colorPrimary}}
+                style={{ marginTop: '20px', width: '100%', color: token?.colorPrimary }}
             >
                 Add New Training
             </Button>
@@ -108,21 +163,19 @@ export const TrainingDrawer: React.FC<TrainingDrawerProps> = ({ visible, onClose
             {isFormVisible && (
                 <Card
                     style={{ marginTop: '20px', border: '1px solid #d9d9d9', borderRadius: '8px', color: token?.colorPrimary }}
-                    title={editingTodoId ? <Typography.Title level={4} style={{color: token?.colorPrimary}}>Edit To-Do</Typography.Title> : <Typography.Title level={4} style={{color: token?.colorPrimary}}>Add New Training</Typography.Title>}
+                    title={<Typography.Title level={4} style={{ color: token?.colorPrimary }}>Add New Training</Typography.Title>}
                     extra={<Button onClick={handleHideForm}>Cancel</Button>}
                 >
                     <Form form={editForm} layout="vertical">
-                        <Form.Item name="title" label="Title" rules={[{ required: true, message: 'Please enter a title' }]}>
+                        <Form.Item name="prompt_category" label="Title" rules={[{ required: true, message: 'Please enter a title' }]}>
                             <Input placeholder="Title" />
                         </Form.Item>
                         <Form.Item name="body" label="Body" rules={[{ required: true, message: 'Please enter a body' }]}>
                             <TextArea rows={4} placeholder="Body" />
                         </Form.Item>
-                        {editingTodoId ? (
-                            <Button type="primary" onClick={handleUpdateTodo}>Update</Button>
-                        ) : (
-                            <Button type="primary" onClick={handleAddTodo}>Add Training</Button>
-                        )}
+                        <Button type="primary" onClick={handleAddTodo} loading={isLoading}>
+                            {isLoading ? 'Adding...' : 'Add Training'}
+                        </Button>
                     </Form>
                 </Card>
             )}
