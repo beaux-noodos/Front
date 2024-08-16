@@ -15,7 +15,7 @@ import {
 import React, {useState} from "react";
 import {IUser} from "../../../interfaces";
 import {CommentButton, LikeButton} from "../../../button";
-import {CommentModal} from "../../modal/commentModal";
+import {CommentModal} from "../../modal/commendModal";
 
 export const UserProfilePage = () => {
     const [current, setCurrent] = useState(1);

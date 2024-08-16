@@ -17,7 +17,7 @@ import {
 import React, { useState } from "react";
 import { IUser } from "../../../interfaces";
 import { CommentButton, LikeButton } from "../../../button";
-import { CommentModal } from "../../modal/commentModal";
+import { CommentModal } from "../../modal/commendModal";
 import {TeamOutlined, UsergroupAddOutlined, UserOutlined} from "@ant-design/icons";
 
 const { TabPane } = Tabs;

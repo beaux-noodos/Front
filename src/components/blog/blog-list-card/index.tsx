@@ -21,7 +21,7 @@ import {
 import React, {useState, useEffect} from "react";
 import {IProject, IUser,} from "../../../interfaces";
 import {CommentButton, LikeButton} from "../../../button";
-import {CommentModal} from "../../modal/commentModal";
+import {CommentModal} from "../../modal/commendModal";
 import {EyeOutlined, UserOutlined} from "@ant-design/icons";
 import {formatDate} from "../../../utils/formatDate";
 

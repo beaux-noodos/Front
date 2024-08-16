@@ -1,7 +1,7 @@
 import { Button} from "antd";
 import { useState } from "react";
 import { MessageOutlined } from "@ant-design/icons";
-import { CommentModal } from "../components/modal/commentModal";
+import { CommentModal } from "../components/modal/commendModal";
 
 type Props = {
     showModal: ()=> void;
