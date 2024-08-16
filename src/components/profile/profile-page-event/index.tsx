@@ -1,53 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { List, Typography, Divider, Button, Calendar, Modal, Row, Col, Avatar, Switch, Card } from 'antd';
+import { List, Typography, Divider, Button, Calendar, Modal, Row, Col, Avatar, Switch, Card, theme } from 'antd';
 import { CalendarOutlined, ClockCircleOutlined, InfoCircleOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { formatDate } from "../../../utils/formatDate";
 import L from 'leaflet';
 import 'leaflet-routing-machine';
+import { ProjectSessioningApi } from '../../../provider/gen';
+import { getCachedUser } from '../../../utils/getCachedUser';
+import { log } from 'console';
 
 const { Title, Text } = Typography;
-
-// Mock event data
-const mockEvents = [
-    {
-        id: 1,
-        title: 'Event 1',
-        date: '2024-08-15T10:00:00Z',
-        description: 'This is the first event.',
-        latitude: 48.8566,
-        longitude: 2.3522,
-    },
-    {
-        id: 2,
-        title: 'Event 2',
-        date: '2024-08-16T14:00:00Z',
-        description: 'This is the second event.',
-        latitude: 40.7128,
-        longitude: -74.0060,
-    },
-    {
-        id: 3,
-        title: 'Event 3',
-        date: '2024-08-22T16:00:00Z',
-        description: 'This is the third event.',
-        latitude: -18.870672412686748,
-        longitude: 47.53471906696079,
-    },
-    {
-        id: 4,
-        title: 'Event 4',
-        date: '2024-08-17T09:00:00Z',
-        description: 'This is the fourth event.',
-    },
-    {
-        id: 5,
-        title: 'Event 5',
-        date: '2024-08-18T11:00:00Z',
-        description: 'This is the fifth event.',
-    }
-];
 
 // Component to handle routing
 const RoutingMachine = ({ destination }) => {
@@ -62,7 +25,7 @@ const RoutingMachine = ({ destination }) => {
             lineOptions: {
                 styles: [{ color: 'red', weight: 4 }]
             },
-            createMarker: function() { return null; } // Hide start and end markers if not needed
+            createMarker: function () { return null; } // Hide start and end markers if not needed
         }).addTo(map);
 
         map.locate({ setView: true, maxZoom: 13 });
@@ -84,42 +47,63 @@ const RoutingMachine = ({ destination }) => {
 };
 
 export const ProfilePageEvent = () => {
-    const [view, setView] = useState('calendar'); // Toggle between 'list' and 'calendar'
-    const [selectedEvent, setSelectedEvent] = useState(null); // For storing selected event
+    const [view, setView] = useState('calendar');
+    const [selectedProjectSession, setselectedProjectSession] = useState(null);
 
-    const events = mockEvents; // Use mock data
+    const [projectSessions, setProjectSessions] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const apiInstance = new ProjectSessioningApi();
+
+        const user = getCachedUser()
+
+        const userId = 'manager1_id';
+        const page = 1;
+        const pageSize = 10;
+
+        apiInstance.getUserProjectSessions(user.id, page, pageSize)
+            .then(response => {
+                setProjectSessions(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error("Error fetching project sessions:", error);
+                setLoading(false);
+            });
+    }, []);
 
     const handleDateCellRender = (value) => {
-        const dateEvents = events.filter(event => new Date(event.date).toDateString() === value.toDate().toDateString());
+        const dateEvents = projectSessions.filter(projectSession => new Date(projectSession.date).toDateString() === value.toDate().toDateString());
         return (
             <ul style={{ padding: 0, margin: 0 }}>
-                {dateEvents.map(event => (
+                {dateEvents.map(projectSession => (
                     <li
-                        key={event.id}
-                        onClick={() => showEventDetails(event)}
+                        key={projectSession.id}
+                        onClick={() => showEventDetails(projectSession)}
                         style={{ cursor: 'pointer', marginBottom: 4 }}
                     >
-                        <Text>{event.title}</Text>
+                        <Text>{projectSession.title}</Text>
                     </li>
                 ))}
             </ul>
         );
     };
 
-    const showEventDetails = (event) => {
-        setSelectedEvent(event);
+    const showEventDetails = (projectSession) => {
+        setselectedProjectSession(projectSession);
     };
 
     const handleDateClick = (value) => {
         const date = value.toDate().toDateString();
-        const eventsOnDate = events.filter(event => new Date(event.date).toDateString() === date);
+        const eventsOnDate = projectSessions.filter(projectSession => new Date(projectSession.date).toDateString() === date);
         if (eventsOnDate.length > 0) {
             showEventDetails(eventsOnDate[0]); // Show the first event on the selected date
         }
     };
 
     const handleModalClose = () => {
-        setSelectedEvent(null);
+        setselectedProjectSession(null);
     };
 
     const handleSwitchChange = (checked) => {
@@ -131,7 +115,7 @@ export const ProfilePageEvent = () => {
             <Divider />
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Title level={2}>
-                    Events
+                    Project Sessions
                 </Title>
                 <Title level={5} style={{ marginRight: 20 }}>
                     <Switch
@@ -147,26 +131,33 @@ export const ProfilePageEvent = () => {
             <Divider />
             {view === 'list' ? (
                 <Row gutter={16}>
-                    {events.map(event => (
-                        <Col span={24} key={event.id}>
+                    {projectSessions.map(projectSession => (
+                        <Col span={24} key={projectSession.id}>
                             <Card
                                 hoverable
-                                onClick={() => showEventDetails(event)}
-                                style={{ marginBottom: 16 }}
+                                onClick={() => showEventDetails(projectSession)}
+                                style={{ marginBottom: 16, backgroundColor: '#EFF1ED' }}
                             >
                                 <Card.Meta
-                                    title={<Title level={4}>{event.title}</Title>}
+                                    title={<Title style={{ color: '#344E41' }} level={4}>{projectSession.title}</Title>}
                                     description={
                                         <>
-                                            <Text>
-                                                <CalendarOutlined style={{ marginRight: 8 }} />
-                                                {formatDate(event.date)}
+                                            <Text style={{ color: '#344E41' }}>
+                                                <span style={{ fontWeight: 'bold' }}> Description : </span>
+                                                {projectSession.description}
                                             </Text>
                                             <br />
-                                            <Text>
+                                            <Text
+                                                style={{
+                                                    color: projectSession.status === 'NOT_STARTED' ? 'red' :
+                                                        projectSession.status === 'IN_PROGRESS' ? 'blue' :
+                                                            projectSession.status === 'COMPLETED' ? 'green' : 'black',
+                                                }}
+                                            >
                                                 <InfoCircleOutlined style={{ marginRight: 8 }} />
-                                                {event.description}
+                                                {projectSession.status}
                                             </Text>
+                                            <br />
                                         </>
                                     }
                                 />
@@ -182,47 +173,68 @@ export const ProfilePageEvent = () => {
             )}
 
             <Modal
-                title={<Title level={4}>{selectedEvent?.title || 'Event Details'}</Title>}
-                open={!!selectedEvent}
+                title={<Title style={{ color: '#344E41'}} level={4.5}>{selectedProjectSession?.title || 'Event Details'}</Title>}
+                open={!!selectedProjectSession}
                 onCancel={handleModalClose}
                 footer={null}
-                style={{ maxWidth: '100%', width: '100%' }} // Full width
+                style={{ maxWidth: '100%', width: '100%'}} // Full width
             >
-                {selectedEvent && (
+                {selectedProjectSession && (
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <Row gutter={16}>
-                            <Col span={4}>
-                                <Avatar icon={<CalendarOutlined />} size={64} />
-                            </Col>
                             <Col span={20}>
-                                <Title level={5} style={{ marginBottom: 0 }}>
-                                    <CalendarOutlined style={{ marginRight: 8 }} />
-                                    {formatDate(selectedEvent.date)}
-                                </Title>
-                                <Text style={{ display: 'block', marginBottom: 8 }}>
-                                    <ClockCircleOutlined style={{ marginRight: 8 }} />
-                                    {new Date(selectedEvent.date).toLocaleTimeString()}
-                                </Text>
                                 <Text>
+                                    <span style={{ fontWeight: 'bold', color: '#344E41' }}> Title : </span>
+                                    {selectedProjectSession.project.title}
+                                </Text>
+                                <br />
+                                <Text>
+                                    <span style={{ fontWeight: 'bold', color: '#344E41' }}> Description : </span>
+                                    {selectedProjectSession.project.description}
+                                </Text>
+                                <br />
+                                <Text level={5} style={{ marginBottom: 30, marginTop: 15, display: 'flex', justifyContent: 'space-between' }}>
+                                    <div style={{ color: '#344E41'}}>
+                                        <span style={{ fontWeight: 'bold' }}>Created At : </span>
+                                        {formatDate(selectedProjectSession.creation_datetime)}
+                                    </div>
+                                    <div style={{ color: '#344E41'}}>
+                                        <span style={{ fontWeight: 'bold' }}> End: </span>
+                                        {formatDate(selectedProjectSession.end_datetime)}
+                                    </div>
+                                </Text>
+                                <Text
+                                    style={{
+                                        padding: '6px 20px',
+                                        borderRadius: 20,
+                                        color: selectedProjectSession.status === 'NOT_STARTED' ? 'red' :
+                                            selectedProjectSession.status === 'IN_PROGRESS' ? 'blue' :
+                                                selectedProjectSession.status === 'COMPLETED' ? 'green' : 'black',
+
+                                        backgroundColor: selectedProjectSession.status === 'NOT_STARTED' ? '#ffdab9' :
+                                            selectedProjectSession.status === 'IN_PROGRESS' ? '#e2eafc' :
+                                                selectedProjectSession.status === 'COMPLETED' ? '#dde5b6' : 'transparent'
+                                    }}
+                                >
                                     <InfoCircleOutlined style={{ marginRight: 8 }} />
-                                    {selectedEvent.description}
+                                    {selectedProjectSession.status}
                                 </Text>
                             </Col>
                         </Row>
-                        {selectedEvent.latitude && selectedEvent.longitude && (
+                        {selectedProjectSession.latitude && selectedProjectSession.longitude && (
                             <Row style={{ marginTop: 16 }}>
                                 <MapContainer
-                                    center={[selectedEvent.latitude, selectedEvent.longitude]}
+                                    center={[selectedProjectSession.latitude, selectedProjectSession.longitude]}
                                     zoom={13}
                                     style={{ height: "300px", width: "100%" }}
                                 >
                                     <TileLayer
                                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                     />
-                                    <Marker position={[selectedEvent.latitude, selectedEvent.longitude]}>
-                                        <Popup>{selectedEvent.title}</Popup>
+                                    <Marker position={[selectedProjectSession.latitude, selectedProjectSession.longitude]}>
+                                        <Popup>{selectedProjectSession.title}</Popup>
                                     </Marker>
-                                    <RoutingMachine destination={selectedEvent} />
+                                    <RoutingMachine destination={selectedProjectSession} />
                                 </MapContainer>
                             </Row>
                         )}
