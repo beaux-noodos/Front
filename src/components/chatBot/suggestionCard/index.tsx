@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Col, Row } from "antd";
 import { getCachedUser } from "../../../utils/getCachedUser";
-import { MessageOutlined } from "@ant-design/icons";
+import { StarFilled } from "@ant-design/icons";
 
 const { Meta } = Card;
 
@@ -113,7 +113,7 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
                   zIndex: 1,
                 }}
               >
-                <MessageOutlined
+                <StarFilled
                   style={{
                     fontSize: "16px",
                     color: "#fadb14",
