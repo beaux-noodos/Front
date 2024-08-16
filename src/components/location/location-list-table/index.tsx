@@ -18,9 +18,9 @@ import {
 } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import { useLocation } from "react-router-dom";
-import {IZzzzzz} from "../../../interfaces";
+import {ILocation} from "../../../interfaces";
 
-export const ZzzzzzListTable = () => {
+export const LocationListTable = () => {
     const t = useTranslate();
     const go = useGo();
     const { pathname } = useLocation();
@@ -33,7 +33,7 @@ export const ZzzzzzListTable = () => {
         pageSize,
         setPageSize,
         pageCount,
-    } = useTable<IZzzzzz, HttpError>();
+    } = useTable<ILocation, HttpError>();
 
     const { pagination, ...tablePropsWithoutPagination } = tableProps;
 
@@ -93,11 +93,11 @@ export const ZzzzzzListTable = () => {
                     key="actions"
                     fixed="right"
                     align="center"
-                    render={(_, record: IZzzzzz) => (
+                    render={(_, record: ILocation) => (
                         <Button
                             icon={<EyeOutlined />}
                             onClick={() => go({
-                                to: `${showUrl("zzzzzzs", record.id)}`,
+                                to: `${showUrl("locations", record.id)}`,
                                 query: { to: pathname },
                                 options: { keepQuery: true },
                                 type: "replace",

@@ -2,9 +2,9 @@ import {useGo, useNavigation, useTranslate} from "@refinedev/core";
 import {CreateButton, List} from "@refinedev/antd";
 import {type PropsWithChildren} from "react";
 import {useLocation} from "react-router-dom";
-import {ZzzzzzListTable} from "../../components/zzzzzz/zzzzzz-list-table";
+import {LocationListTable} from "../../components/location/location-list-table";
 
-export const ZzzzzzList = ({children}: PropsWithChildren) => {
+export const LocationList = ({children}: PropsWithChildren) => {
     const go = useGo();
     const {pathname} = useLocation();
     const {createUrl} = useNavigation();
@@ -20,7 +20,7 @@ export const ZzzzzzList = ({children}: PropsWithChildren) => {
                     size="large"
                     onClick={() => {
                         return go({
-                            to: `${createUrl("zzzzzzs")}`,
+                            to: `${createUrl("locations")}`,
                             query: {
                                 to: pathname,
                             },
@@ -31,11 +31,11 @@ export const ZzzzzzList = ({children}: PropsWithChildren) => {
                         });
                     }}
                 >
-                    {t("zzzzzzs.actions.add")}
+                    {t("locations.actions.add")}
                 </CreateButton>,
             ]}
         >
-            <ZzzzzzListTable />
+            <LocationListTable />
             {children}
         </List>
     );

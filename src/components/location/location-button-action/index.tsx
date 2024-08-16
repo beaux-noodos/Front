@@ -5,18 +5,18 @@ import {
     Button,
     Flex, theme,
 } from "antd";
-import type {IZzzzzz} from "../../../interfaces";
+import type {ILocation} from "../../../interfaces";
 import {DeleteButton} from "@refinedev/antd";
 import {EditOutlined} from "@ant-design/icons";
 
 type Props = {
-    zzzzzz: IZzzzzz,
+    location: ILocation,
     handleDrawerClose: () => void
     handleDrawerEdit: () => void
 };
 
-export const ZzzzzzButtonAction = (props: Props) => {
-    const {zzzzzz, handleDrawerClose, handleDrawerEdit} = props;
+export const LocationButtonAction = (props: Props) => {
+    const {location, handleDrawerClose, handleDrawerEdit} = props;
     const {token} = theme.useToken();
     const t = useTranslate();
 
@@ -32,8 +32,8 @@ export const ZzzzzzButtonAction = (props: Props) => {
             <Button onClick={handleDrawerClose}>Cancel</Button>
             <DeleteButton
                 type="primary"
-                recordItemId={zzzzzz?.id}
-                resource="zzzzzzs"
+                recordItemId={location?.id}
+                resource="locations"
                 onSuccess={() => {
                     handleDrawerClose();
                 }}
