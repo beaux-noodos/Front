@@ -9,6 +9,7 @@ import type {IXxxxxx} from "../../../interfaces";
 import {DeleteButton} from "@refinedev/antd";
 import {EditOutlined} from "@ant-design/icons";
 import {useToken} from "antd/es/theme/internal";
+import {ProjectCreate} from "../../../pages/projects";
 
 type Props = {
     xxxxxx: IXxxxxx,
@@ -16,7 +17,7 @@ type Props = {
     handleDrawerEdit: () => void
 };
 
-export const XxxxxxButtonAction = (props: Props) => {
+export const ProjectButtonAction = (props: Props) => {
     const {xxxxxx, handleDrawerClose, handleDrawerEdit} = props;
     const {token} = theme.useToken();
     const t = useTranslate();

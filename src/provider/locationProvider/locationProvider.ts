@@ -13,23 +13,23 @@ import {
 } from "@refinedev/core";
 import {createAuthenticatedRequest} from "../api";
 
-const { zzzzzzApi } = createAuthenticatedRequest();
+const { locationApi } = createAuthenticatedRequest();
 
-export const zzzzzzProvider: DataProvider = {
+export const locationProvider: DataProvider = {
     getApiUrl(): string {
         return "";
     },
     getList: async ({ resource, pagination, filters, sort }: GetListParams) => {
         const page = pagination?.current || 1;
         const pageSize = pagination?.pageSize || 10;
-        const response = await zzzzzzApi.getZzzzzzs(page, pageSize);
+        const response = await locationApi.getLocations(page, pageSize);
         return {
             data: response.data,
             total: response.data.length,
         };
     },
     getOne: async ({ resource, id }: GetOneParams) => {
-        const response = await zzzzzzApi.getZzzzzzById(id.toString());
+        const response = await locationApi.getLocationById(id.toString());
         return {
             data: response.data,
         };
@@ -37,19 +37,19 @@ export const zzzzzzProvider: DataProvider = {
     create: async ({ resource, variables }: CreateParams) => {
         const id = variables?.id;
 
-        const response = await zzzzzzApi.crupdateZzzzzzById(id, variables);
+        const response = await locationApi.crupdateLocationById(id, variables);
         return {
             data: response.data,
         };
     },
     update: async ({ resource, id, variables }: UpdateParams) => {
-        const response = await zzzzzzApi.crupdateZzzzzzById(id.toString(), variables);
+        const response = await locationApi.crupdateLocationById(id.toString(), variables);
         return {
             data: response.data,
         };
     },
     deleteOne: async ({ resource, id }: DeleteOneParams) => {
-        const response = await zzzzzzApi.deleteZzzzzzById(id.toString());
+        const response = "not implemented"
         return {
             data: response.data,
         };
