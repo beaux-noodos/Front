@@ -1,4 +1,4 @@
-import {SaveButton, useDrawerForm} from "@refinedev/antd";
+import { SaveButton, useModalForm } from "@refinedev/antd";
 import {
     type BaseKey,
     useApiUrl,
@@ -9,40 +9,39 @@ import {
 import {
     Form,
     Input,
-    Grid,
     Button,
     Flex,
     Spin,
     DatePicker,
     Upload,
+    Modal,
 } from "antd";
-import {UploadOutlined} from "@ant-design/icons";
-import type {IProject} from "../../../interfaces";
-import {useSearchParams} from "react-router-dom";
-import {Drawer} from "../../drawer";
-import {useStyles} from "./styled";
-import {v4 as uuidv4} from "uuid";
-import {getCachedUser} from "../../../utils/getCachedUser";
-import type {UploadFile} from "antd/es/upload/interface";
+import { UploadOutlined } from "@ant-design/icons";
+import type { IProject } from "../../../interfaces";
+import { useSearchParams } from "react-router-dom";
+import { useStyles } from "./styled";
+import { v4 as uuidv4 } from "uuid";
+import { getCachedUser } from "../../../utils/getCachedUser";
+import dayjs from "dayjs";
 
 type Props = {
     id?: BaseKey;
     action: "create" | "edit";
     onClose?: () => void;
     onMutationSuccess?: () => void;
+    isModalVisible?: boolean;
 };
 
-export const ProjectDrawerForm = (props: Props) => {
+export const ProjectModalForm = (props: Props) => {
     const getToPath = useGetToPath();
     const [searchParams] = useSearchParams();
     const go = useGo();
     const t = useTranslate();
     const apiUrl = useApiUrl();
-    const breakpoint = Grid.useBreakpoint();
-    const {styles, theme} = useStyles();
+    const { styles } = useStyles();
 
-    const {drawerProps, formProps, close, saveButtonProps, formLoading} =
-        useDrawerForm<IProject>({
+    const { modalProps, formProps, close, saveButtonProps, formLoading } =
+        useModalForm<IProject>({
             resource: "projects",
             id: props?.id, // when undefined, id will be read from the URL.
             action: props.action,
@@ -52,7 +51,7 @@ export const ProjectDrawerForm = (props: Props) => {
             },
         });
 
-    const onDrawerCLose = () => {
+    const onModalClose = () => {
         close();
 
         if (props?.onClose) {
@@ -77,8 +76,6 @@ export const ProjectDrawerForm = (props: Props) => {
         });
     };
 
-    // l'utilisateur à envoyer vers la requete pour la création du projet est l'user qui est connecté
-
     const actualUser = getCachedUser();
 
     const generateDomainValues = (values: any, action: "create" | "edit") => {
@@ -98,13 +95,26 @@ export const ProjectDrawerForm = (props: Props) => {
     const title = props.action === "edit" ? null : t("projects.actions.add");
 
     return (
-        <Drawer
-            {...drawerProps}
-            open={true}
+        <Modal
+            {...modalProps}
             title={title}
-            width={breakpoint.sm ? "378px" : "100%"}
-            zIndex={1001}
-            onClose={onDrawerCLose}
+            open={props?.isModalVisible}
+            onCancel={onModalClose}
+            centered={true}
+            footer={[
+                <Button key="cancel" onClick={onModalClose}>
+                    Cancel
+                </Button>,
+                <SaveButton
+                    {...saveButtonProps}
+                    key="save"
+                    htmlType="submit"
+                    type="primary"
+                >
+                    Save
+                </SaveButton>,
+            ]}
+            width={600} // Adjust the width as needed
         >
             <Spin spinning={formLoading}>
                 <Form
@@ -117,10 +127,16 @@ export const ProjectDrawerForm = (props: Props) => {
                             window.event.preventDefault();
                         }
 
+                        const formattedValues = {
+                            ...values,
+                            start_datetime: dayjs(values.start_datetime).format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
+                            end_datetime: dayjs(values.end_datetime).format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
+                        };
+
                         const toDomainValues = generateDomainValues(
                             {
                                 ...formProps.initialValues,
-                                ...values,
+                                ...formattedValues,
                             },
                             props.action
                         );
@@ -136,7 +152,7 @@ export const ProjectDrawerForm = (props: Props) => {
                             className={styles.formItem}
                             rules={[]}
                         >
-                            <Input/>
+                            <Input />
                         </Form.Item>
 
                         <Form.Item
@@ -151,7 +167,7 @@ export const ProjectDrawerForm = (props: Props) => {
                                 maxCount={1}
                                 beforeUpload={() => false} // Prevent automatic upload
                             >
-                                <Button icon={<UploadOutlined/>}>
+                                <Button icon={<UploadOutlined />}>
                                     Click to Upload
                                 </Button>
                             </Upload>
@@ -163,15 +179,16 @@ export const ProjectDrawerForm = (props: Props) => {
                             className={styles.formItem}
                             rules={[]}
                         >
-                            <Input/>
+                            <Input />
                         </Form.Item>
+
                         <Form.Item
                             label={"Price"}
                             name="price"
                             className={styles.formItem}
                             rules={[]}
                         >
-                            <Input/>
+                            <Input />
                         </Form.Item>
 
                         <Form.Item
@@ -183,7 +200,7 @@ export const ProjectDrawerForm = (props: Props) => {
                             <DatePicker
                                 showTime
                                 format="YYYY-MM-DDTHH:mm:ssZ"
-                                style={{width: "100%"}}
+                                style={{ width: "100%" }}
                             />
                         </Form.Item>
 
@@ -196,30 +213,12 @@ export const ProjectDrawerForm = (props: Props) => {
                             <DatePicker
                                 showTime
                                 format="YYYY-MM-DDTHH:mm:ssZ"
-                                style={{width: "100%"}}
+                                style={{ width: "100%" }}
                             />
                         </Form.Item>
-
-                        <Flex
-                            align="center"
-                            justify="space-between"
-                            style={{
-                                padding: "16px 16px 0px 16px",
-                            }}
-                        >
-                            <Button onClick={onDrawerCLose}>Cancel</Button>
-                            <SaveButton
-                                {...saveButtonProps}
-                                htmlType="submit"
-                                type="primary"
-                                icon={null}
-                            >
-                                Save
-                            </SaveButton>
-                        </Flex>
                     </Flex>
                 </Form>
             </Spin>
-        </Drawer>
+        </Modal>
     );
 };
