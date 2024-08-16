@@ -7,41 +7,42 @@ const { Meta } = Card;
 
 const suggestionsForProjectHolder = [
   {
-    title: "Suggestion for Project Holder 1",
-    description: "Description for suggestion 1",
+    title: "Irrigation Efficace",
+    description: "Économisez l'eau avec l'irrigation goutte-à-goutte.",
   },
   {
-    title: "Suggestion for Project Holder 2",
-    description: "Description for suggestion 2",
+    title: "Fertilisation Précise",
+    description: "Appliquez les engrais selon les besoins.",
   },
   {
-    title: "Suggestion for Project Holder 3",
-    description: "Description for suggestion 3",
+    title: "Réduction des Émissions",
+    description: "Minimisez les gaz à effet de serre.",
   },
   {
-    title: "Suggestion for Project Holder 4",
-    description: "Description for suggestion 4",
+    title: "Conservation des Sols",
+    description: "Protégez les sols et soutenez la biodiversité.",
   },
 ];
 
 const suggestionsForInvestor = [
-  {
-    title: "Suggestion for Investor 1",
-    description: "Description for suggestion 1",
-  },
-  {
-    title: "Suggestion for Investor 2",
-    description: "Description for suggestion 2",
-  },
-  {
-    title: "Suggestion for Investor 3",
-    description: "Description for suggestion 3",
-  },
-  {
-    title: "Suggestion for Investor 4",
-    description: "Description for suggestion 4",
-  },
-];
+    {
+      title: "Projet d'Agriculture Connectée",
+      description: "Optimisez l'irrigation et la gestion des cultures.",
+    },
+    {
+      title: "Technologie de Surveillance Environnementale",
+      description: "Réduisez l'impact environnemental.",
+    },
+    {
+      title: "Développement de Bioénergie",
+      description: "Transformez les déchets organiques en énergie.",
+    },
+    {
+      title: "Agriculture Durable",
+      description: "Soutenez la conservation des sols et la biodiversité.",
+    },
+  ];
+  
 
 interface SuggestionCardProps {
   onSelectSuggestion: (title: string) => void;
