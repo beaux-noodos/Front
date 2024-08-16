@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Example - API
+ * Prehakaton - API
  * XYXYXY 
  *
  * The version of the OpenAPI document: latest

@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   version: "latest"
-  title: Example - API
+  title: Prehakaton - API
   description: |
     XYXYXY
 security:
@@ -149,6 +149,88 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ChatResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "429":
+          $ref: "#/components/responses/429"
+        "500":
+          $ref: "#/components/responses/500"
+
+  "/users/{id}/technical-solution/{tsid}/chat":
+    get:
+      tags:
+        - Chatbot
+      summary: Obtain information from the chatbot.
+      operationId: getChatbotTechnicalInformation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tsid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: prompt
+          in: query
+          required: true
+          description: The question to ask the chatbot about.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The response given by the chatbot.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ChatResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "429":
+          $ref: "#/components/responses/429"
+        "500":
+          $ref: "#/components/responses/500"
+
+  "/technical-solution/{tsid}/prompt":
+    put:
+      tags:
+        - Chatbot
+      summary: Add information from in chatbot.
+      operationId: putChatbotTechnicalInformation
+      parameters:
+        - name: tsid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: User to crupdate.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Prompt"
+      responses:
+        "200":
+          description: Prompt modify.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Prompt"
         "400":
           $ref: "#/components/responses/400"
         "403":
@@ -336,13 +418,86 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  ## Xxxxxxing resources
-  "/xxxxxxs":
+
+  "/users/{id}/projects/{pid}/subscribe":
+    get:
+      summary: "Récupérer les cours suivis par l'utilisateur"
+      operationId: "getUserSubscribedProjects"
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: "ID de l'utilisateur"
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: "ID de l'projects"
+      responses:
+        '200':
+          description: "Liste des cours suivis"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '400':
+          $ref: "#/components/responses/400"
+        '403':
+          $ref: "#/components/responses/403"
+        '404':
+          $ref: "#/components/responses/404"
+        '429':
+          $ref: "#/components/responses/429"
+        '500':
+          $ref: "#/components/responses/500"
+
+  "/users/{id}/notification":
+    get:
+      summary: "Récupérer les notifications de l'utilisateur"
+      operationId: "getUserNotifications"
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: "ID de l'utilisateur"
+      responses:
+        '200':
+          description: "Liste des notifications"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+        '400':
+          $ref: "#/components/responses/400"
+        '403':
+          $ref: "#/components/responses/403"
+        '404':
+          $ref: "#/components/responses/404"
+        '429':
+          $ref: "#/components/responses/429"
+        '500':
+          $ref: "#/components/responses/500"
+
+  ## Projecting resources
+  "/projects":
     get:
       tags:
-        - Xxxxxxing
-      summary: Get all xxxxxxs.
-      operationId: getXxxxxxs
+        - Projecting
+      summary: Get all projects.
+      operationId: getProjects
       parameters:
         - name: page
           in: query
@@ -361,13 +516,13 @@ paths:
             type: boolean
       responses:
         "200":
-          description: List of xxxxxxs that meet the criteria.
+          description: List of projects that meet the criteria.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Xxxxxx"
+                  $ref: "#/components/schemas/Project"
         "400":
           $ref: "#/components/responses/400"
         "403":
@@ -379,12 +534,12 @@ paths:
         "500":
           $ref: "#/components/responses/500"
 
-  "/xxxxxxs/{pid}":
+  "/projects/{pid}":
     get:
       tags:
-        - Xxxxxxing
-      summary: Get xxxxxx by identifier.
-      operationId: getXxxxxxById
+        - Projecting
+      summary: Get project by identifier.
+      operationId: getProjectById
       parameters:
         - name: pid
           in: path
@@ -393,11 +548,11 @@ paths:
             type: string
       responses:
         "200":
-          description: The identified xxxxxx.
+          description: The identified project.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Xxxxxx"
+                $ref: "#/components/schemas/Project"
         "400":
           $ref: "#/components/responses/400"
         "403":
@@ -410,9 +565,9 @@ paths:
           $ref: "#/components/responses/500"
     put:
       tags:
-        - Xxxxxxing
-      summary: Crupdate xxxxxx by identifier.
-      operationId: crupdateXxxxxxById
+        - Projecting
+      summary: Crupdate project by identifier.
+      operationId: crupdateProjectById
       parameters:
         - name: pid
           in: path
@@ -420,47 +575,19 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Xxxxxx to crupdate
+        description: Project to crupdate
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Xxxxxx"
+              $ref: "#/components/schemas/Project"
       responses:
         "201":
-          description: The crupdated xxxxxx.
+          description: The crupdated project.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Xxxxxx"
-        "400":
-          $ref: "#/components/responses/400"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "429":
-          $ref: "#/components/responses/429"
-        "500":
-          $ref: "#/components/responses/500"
-    delete:
-      tags:
-        - Xxxxxxing
-      summary: Delete xxxxxx by identifier.
-      operationId: deleteXxxxxxById
-      parameters:
-        - name: pid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: The deleted xxxxxx.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Xxxxxx"
+                $ref: "#/components/schemas/Project"
         "400":
           $ref: "#/components/responses/400"
         "403":
@@ -472,12 +599,12 @@ paths:
         "500":
           $ref: "#/components/responses/500"
 
-  "/users/{uid}/xxxxxxs/{xid}/react":
+  "/users/{uid}/projects/{xid}/react":
     put:
       tags:
-        - Xxxxxxing
-      summary: Reacte an xxxxxxs.
-      operationId: crupdateReactionXxxxxxs
+        - Projecting
+      summary: Reacte an projects.
+      operationId: crupdateReactionProjects
       parameters:
         - name: uid
           in: path
@@ -489,11 +616,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: isSuggest
-          in: query
-          required: false
-          schema:
-            type: boolean
       requestBody:
         description: Reaction to crupdate
         required: true
@@ -503,7 +625,7 @@ paths:
               $ref: "#/components/schemas/Reaction"
       responses:
         "200":
-          description: List of xxxxxxs that meet the criteria.
+          description: List of projects that meet the criteria.
           content:
             application/json:
               schema:
@@ -519,12 +641,12 @@ paths:
         "500":
           $ref: "#/components/responses/500"
 
-  "/xxxxxxs/{xid}/react":
+  "/projects/{xid}/react":
     get:
       tags:
-        - Xxxxxxing
-      summary: Get all ReactionXxxxxxs.
-      operationId: getReactionXxxxxxs
+        - Projecting
+      summary: Get all ReactionProjects.
+      operationId: getReactionProjects
       parameters:
         - name: xid
           in: path
@@ -568,7 +690,7 @@ paths:
             $ref: "#/components/schemas/PageSize"
       responses:
         "200":
-          description: List of xxxxxxs that meet the criteria.
+          description: List of projects that meet the criteria.
           content:
             application/json:
               schema:
@@ -586,176 +708,32 @@ paths:
         "500":
           $ref: "#/components/responses/500"
 
-  ## Yyyyyying resources
-  "/yyyyyys":
-    get:
-      tags:
-        - Yyyyyying
-      summary: Get all yyyyyys.
-      operationId: getYyyyyys
-      parameters:
-        - name: page
-          in: query
-          required: true
-          schema:
-            $ref: "#/components/schemas/Page"
-        - name: page_size
-          in: query
-          required: true
-          schema:
-            $ref: "#/components/schemas/PageSize"
-        - name: categories
-          in: query
-          required: false
-          description: yyyyyy
-          schema:
-            type: string
-        - name: isSuggest
-          in: query
-          required: false
-          schema:
-            type: boolean
-      responses:
-        "200":
-          description: List of yyyyyys that meet the criteria.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Yyyyyy"
-        "400":
-          $ref: "#/components/responses/400"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "429":
-          $ref: "#/components/responses/429"
-        "500":
-          $ref: "#/components/responses/500"
-
-  "/yyyyyys/{pid}":
-    get:
-      tags:
-        - Yyyyyying
-      summary: Get yyyyyy by identifier.
-      operationId: getYyyyyyById
-      parameters:
-        - name: pid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: The identified yyyyyy.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Yyyyyy"
-        "400":
-          $ref: "#/components/responses/400"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "429":
-          $ref: "#/components/responses/429"
-        "500":
-          $ref: "#/components/responses/500"
+  "/projects/{xid}/pictures":
     put:
       tags:
-        - Yyyyyying
-      summary: Crupdate yyyyyy by identifier.
-      operationId: crupdateYyyyyyById
+        - Projecting
+      summary: Submit project picture
+      operationId: putProjectPicture
       parameters:
-        - name: pid
+        - name: xid
           in: path
           required: true
           schema:
             type: string
       requestBody:
-        description: Yyyyyy to crupdate
         required: true
         content:
-          application/json:
+          application/octet-stream:
             schema:
-              $ref: "#/components/schemas/Yyyyyy"
-      responses:
-        "201":
-          description: The crupdated yyyyyy.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Yyyyyy"
-        "400":
-          $ref: "#/components/responses/400"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "429":
-          $ref: "#/components/responses/429"
-        "500":
-          $ref: "#/components/responses/500"
-    delete:
-      tags:
-        - Yyyyyying
-      summary: Delete yyyyyy by identifier.
-      operationId: deleteYyyyyyById
-      parameters:
-        - name: pid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: The deleted yyyyyy.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Yyyyyy"
-        "400":
-          $ref: "#/components/responses/400"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "429":
-          $ref: "#/components/responses/429"
-        "500":
-          $ref: "#/components/responses/500"
-
-
-  "/Users/{id}/yyyyyy/{yyyyyy_id}/pdf":
-    get:
-      tags:
-        - Yyyyyying
-      summary: Get pdf of a specific yyyyyy.
-      operationId: getYyyyyyPdf
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: yyyyyy_id
-          in: path
-          required: true
-          schema:
-            type: string
+              type: string
+              format: binary
       responses:
         '200':
-          description: Yyyyyy Pdf
+          description: Project with picture added.
           content:
-            application/pdf:
+            application/json:
               schema:
-                type: string
-                format: binary
-                example: PDF VERSION
-
+                $ref: '#/components/schemas/Project'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -767,108 +745,39 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  "/users/{uid}/yyyyyys/{xid}/react":
-    put:
-      tags:
-        - Yyyyyying
-      summary: Reacte an yyyyyys.
-      operationId: crupdateReactionYyyyyys
-      parameters:
-        - name: uid
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: xid
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: isSuggest
-          in: query
-          required: false
-          schema:
-            type: boolean
-      requestBody:
-        description: Reaction to crupdate
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Reaction"
-      responses:
-        "200":
-          description: List of yyyyyys that meet the criteria.
-          content:
-            apeyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0K3Zhbm9AaGVpLnNjaG9vbCIsImlhdCI6MTcyMjg5NTY3MCwiZXhwIjoxNzIzNDk1NjcwfQ.va9FHIb7juP5Qzg9PfvxHc4cvvEWKsmDQN9QexBT30Mplication/json:
-              schema:
-                $ref: "#/components/schemas/Reaction"
-        "400":
-          $ref: "#/components/responses/400"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "429":
-          $ref: "#/components/responses/429"
-        "500":
-          $ref: "#/components/responses/500"
-  "/yyyyyys/{xid}/react":
+  ## ProjectSessioning resources
+  "/users/{id}/project-sessions":
     get:
       tags:
-        - Yyyyyying
-      summary: Get all ReactionYyyyyys.
-      operationId: getReactionYyyyyys
+        - ProjectSessioning
+      summary: Get all projectSessions.
+      operationId: getUserProjectSessions
       parameters:
-        - name: xid
-          in: path
+        - in: path
+          name: id
           required: true
           schema:
             type: string
-        - name: uid
-          in: query
-          required: false
-          schema:
-            type: string
-        - name: have_like_reaction
-          in: query
-          required: false
-          schema:
-            type: boolean
-        - name: have_vision
-          in: query
-          required: false
-          schema:
-            type: boolean
-        - name: have_stars_number
-          in: query
-          required: false
-          schema:
-            type: boolean
-        - name: have_comment
-          in: query
-          required: false
-          schema:
-            type: boolean
+          description: "ID de l'utilisateur"
         - name: page
           in: query
-          required: false
+          required: true
           schema:
             $ref: "#/components/schemas/Page"
         - name: page_size
           in: query
-          required: false
+          required: true
           schema:
             $ref: "#/components/schemas/PageSize"
       responses:
         "200":
-          description: List of yyyyyys that meet the criteria.
+          description: List of projectSessions that meet the criteria.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Reaction"
+                  $ref: "#/components/schemas/ProjectSession"
         "400":
           $ref: "#/components/responses/400"
         "403":
@@ -880,14 +789,19 @@ paths:
         "500":
           $ref: "#/components/responses/500"
 
-  ## Zzzzzzing resources
-  "/zzzzzzs":
+  "/projects/{xid}/project-sessions":
     get:
       tags:
-        - Zzzzzzing
-      summary: Get all zzzzzzs.
-      operationId: getZzzzzzs
+        - ProjectSessioning
+      summary: Get all projectSessions.
+      operationId: getProjectSessions
       parameters:
+        - in: path
+          name: xid
+          required: true
+          schema:
+            type: string
+          description: "ID du cours"
         - name: page
           in: query
           required: true
@@ -905,13 +819,13 @@ paths:
             type: boolean
       responses:
         "200":
-          description: List of zzzzzzs that meet the criteria.
+          description: List of projectSessions that meet the criteria.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Zzzzzz"
+                  $ref: "#/components/schemas/ProjectSession"
         "400":
           $ref: "#/components/responses/400"
         "403":
@@ -923,13 +837,19 @@ paths:
         "500":
           $ref: "#/components/responses/500"
 
-  "/zzzzzzs/{pid}":
+  "/projects/{xid}/project-sessions/{pid}":
     get:
       tags:
-        - Zzzzzzing
-      summary: Get zzzzzz by identifier.
-      operationId: getZzzzzzById
+        - ProjectSessioning
+      summary: Get projectSession by identifier.
+      operationId: getProjectSessionById
       parameters:
+        - in: path
+          name: xid
+          required: true
+          schema:
+            type: string
+          description: "ID du cours"
         - name: pid
           in: path
           required: true
@@ -937,11 +857,11 @@ paths:
             type: string
       responses:
         "200":
-          description: The identified zzzzzz.
+          description: The identified projectSession.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Zzzzzz"
+                $ref: "#/components/schemas/ProjectSession"
         "400":
           $ref: "#/components/responses/400"
         "403":
@@ -954,103 +874,35 @@ paths:
           $ref: "#/components/responses/500"
     put:
       tags:
-        - Zzzzzzing
-      summary: Crupdate zzzzzz by identifier.
-      operationId: crupdateZzzzzzById
+        - ProjectSessioning
+      summary: Crupdate projectSession by identifier.
+      operationId: crupdateProjectSessionById
       parameters:
+        - in: path
+          name: xid
+          required: true
+          schema:
+            type: string
+          description: "ID du cours"
         - name: pid
           in: path
           required: true
           schema:
             type: string
       requestBody:
-        description: Zzzzzz to crupdate
+        description: ProjectSession to crupdate
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Zzzzzz"
+              $ref: "#/components/schemas/ProjectSession"
       responses:
         "201":
-          description: The crupdated zzzzzz.
+          description: The crupdated projectSession.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Zzzzzz"
-        "400":
-          $ref: "#/components/responses/400"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "429":
-          $ref: "#/components/responses/429"
-        "500":
-          $ref: "#/components/responses/500"
-    delete:
-      tags:
-        - Zzzzzzing
-      summary: Delete zzzzzz by identifier.
-      operationId: deleteZzzzzzById
-      parameters:
-        - name: pid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: The deleted zzzzzz.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Zzzzzz"
-        "400":
-          $ref: "#/components/responses/400"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "429":
-          $ref: "#/components/responses/429"
-        "500":
-          $ref: "#/components/responses/500"
-  "/users/{uid}/zzzzzzs/{xid}/react":
-    put:
-      tags:
-        - Zzzzzzing
-      summary: Reacte an zzzzzzs.
-      operationId: crupdateReactionZzzzzzs
-      parameters:
-        - name: uid
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: xid
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: isSuggest
-          in: query
-          required: false
-          schema:
-            type: boolean
-      requestBody:
-        description: Reaction to crupdate
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Reaction"
-      responses:
-        "200":
-          description: List of zzzzzzs that meet the criteria.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Reaction"
+                $ref: "#/components/schemas/ProjectSession"
         "400":
           $ref: "#/components/responses/400"
         "403":
@@ -1062,62 +914,103 @@ paths:
         "500":
           $ref: "#/components/responses/500"
 
-  "/zzzzzzs/{xid}/react":
+  ## Locationing resources
+  "/locations":
     get:
       tags:
-        - Zzzzzzing
-      summary: Get all ReactionZzzzzzs.
-      operationId: getReactionZzzzzzs
+        - Locationing
+      summary: Get all locations.
+      operationId: getLocations
       parameters:
-        - name: xid
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: uid
-          in: query
-          required: false
-          schema:
-            type: string
-        - name: have_like_reaction
-          in: query
-          required: false
-          schema:
-            type: boolean
-        - name: have_vision
-          in: query
-          required: false
-          schema:
-            type: boolean
-        - name: have_stars_number
-          in: query
-          required: false
-          schema:
-            type: boolean
-        - name: have_comment
-          in: query
-          required: false
-          schema:
-            type: boolean
         - name: page
           in: query
-          required: false
+          required: true
           schema:
             $ref: "#/components/schemas/Page"
         - name: page_size
           in: query
-          required: false
+          required: true
           schema:
             $ref: "#/components/schemas/PageSize"
+        - name: isSuggest
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         "200":
-          description: List of zzzzzzs that meet the criteria.
+          description: List of locations that meet the criteria.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Reaction"
+                  $ref: "#/components/schemas/Location"
+        "400":
+          $ref: "#/components/responses/400"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "429":
+          $ref: "#/components/responses/429"
+        "500":
+          $ref: "#/components/responses/500"
+
+  "/locations/{pid}":
+    get:
+      tags:
+        - Locationing
+      summary: Get location by identifier.
+      operationId: getLocationById
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: The identified location.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Location"
+        "400":
+          $ref: "#/components/responses/400"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "429":
+          $ref: "#/components/responses/429"
+        "500":
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - Locationing
+      summary: Crupdate location by identifier.
+      operationId: crupdateLocationById
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Location to crupdate
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Location"
+      responses:
+        "201":
+          description: The crupdated location.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Location"
         "400":
           $ref: "#/components/responses/400"
         "403":
@@ -1179,7 +1072,9 @@ components:
     Role:
       type: string
       enum:
-        - CLIENT
+        - TECHNICAL_SOLUTION
+        - PROJECT_OWNER
+        - INVESTOR
         - MANAGER
     Sex:
       type: string
@@ -1198,49 +1093,169 @@ components:
         - ENABLED
         - BANISHED
 
+    StatusEnum:
+      type: string
+      enum:
+        - PLANNING
+        - CONFIRMED
+        - COMPLETED
+
+    StatusSessionEnum:
+      type: string
+      enum:
+        - NOT_STARTING
+        - IN_PROGRESS
+        - COMPLETED
+
         ## resource model
 
-    Xxxxxx:
+    HaveCreationAndUpdate:
       properties:
-        id:
-          type: string
         creation_datetime:
           type: string
           format: date-time
         updated_at:
           type: string
           format: date-time
+
+    ReactionsProperties:
+      properties:
+        like_number:
+          type: integer
+        view_number:
+          type: integer
+        star_medium:
+          type: number
+          format: float
+
+    HaveImageProperties:
+      properties:
+        image_url:
+          type: string
+        picture_is_implemented:
+          type: boolean
+
+    Project:
+      allOf:
+        - $ref: "#/components/schemas/ReactionsProperties"
+        - $ref: "#/components/schemas/HaveImageProperties"
+        - $ref: "#/components/schemas/HaveCreationAndUpdate"
+      properties:
+        id:
+          type: string
         user:
           $ref: "#/components/schemas/User"
+        title:
+          type: string
+        description:
+          type: string
+        categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProjectCategory"
+        investor:
+          $ref: "#/components/schemas/User"
+        technicalSolution:
+          $ref: "#/components/schemas/User"
+        sessions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProjectSession"
+        status:
+          $ref: "#/components/schemas/StatusEnum"
+        price:
+          type: number
+          format: float
+        localisation:
+          $ref: "#/components/schemas/Location"
+        start_datetime:
+          type: string
+          format: date-time
+        end_datetime:
+          type: string
+          format: date-time
+        need_investor:
+          type: boolean
+        need_technical_solution:
+          type: boolean
 
+    Notification:
+      allOf:
+        - $ref: "#/components/schemas/HaveCreationAndUpdate"
 
-    Yyyyyy:
       properties:
         id:
           type: string
-        creation_datetime:
+        user:
+          $ref: "#/components/schemas/User"
+        title:
           type: string
-          format: date-time
-        updated_at:
+        body:
           type: string
-          format: date-time
-        xxxxxx:
-          $ref: "#/components/schemas/Xxxxxx"
-        zzzzzz:
-          $ref: "#/components/schemas/Zzzzzz"
+        isRead:
+          type: boolean
 
-    Zzzzzz:
+    ProjectSession:
+      allOf:
+        - $ref: "#/components/schemas/ReactionsProperties"
+        - $ref: "#/components/schemas/HaveCreationAndUpdate"
       properties:
         id:
           type: string
-        creation_datetime:
+        project:
+          $ref: "#/components/schemas/Project"
+        location:
+          $ref: "#/components/schemas/Location"
+        status:
+          $ref: "#/components/schemas/StatusSessionEnum"
+        title:
+          type: string
+        description:
+          type: string
+        end_datetime:
           type: string
           format: date-time
-        updated_at:
+
+
+    Location:
+      allOf:
+        - $ref: "#/components/schemas/HaveCreationAndUpdate"
+      properties:
+        id:
           type: string
-          format: date-time
+        name:
+          type: string
+        description:
+          type: string
+        latitude:
+          type: string
+        longitude:
+          type: string
+
+    Prompt:
+      allOf:
+        - $ref: "#/components/schemas/HaveCreationAndUpdate"
+      properties:
+        id:
+          type: string
+        prompt_category:
+          type: string
+        body:
+          type: string
+
 
     ChatResponse:
+      allOf:
+        - $ref: "#/components/schemas/HaveCreationAndUpdate"
+      properties:
+        id:
+          type: string
+        prompts:
+          type: array
+          items:
+            $ref: "#/components/schemas/Prompt"
+
+    ChatModel:
       properties:
         creation_datetime:
           type: string
@@ -1249,17 +1264,13 @@ components:
           type: string
 
     Reaction:
+      allOf:
+        - $ref: "#/components/schemas/HaveCreationAndUpdate"
       properties:
         id:
           type: string
         likeReaction:
           $ref: "#/components/schemas/ReactionType"
-        creation_datetime:
-          type: string
-          format: date-time
-        last_update_datetime:
-          type: string
-          format: date-time
         user_id:
           type: string
         subject_id:
@@ -1311,10 +1322,10 @@ components:
         url:
           type: string
     UserPictureType:
-        type: string
-        enum:
-         - BANNER
-         - PROFILE
+      type: string
+      enum:
+        - BANNER
+        - PROFILE
     AuthenticationPayload:
       properties:
         email:
@@ -1334,6 +1345,31 @@ components:
           $ref: "#/components/schemas/User"
         bearer:
           type: string
+
+    Signalisation:
+      allOf:
+        - $ref: "#/components/schemas/HaveCreationAndUpdate"
+      properties:
+        id:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+        reason:
+          type: string
+          description: "Raison de la signalisation"
+        details:
+          type: string
+          description: "Détails supplémentaires concernant la signalisation"
+
+    ProjectCategory:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "Nom de la categorie"
+        description:
+          type: string
+          description: "Détails supplémentaires concernant la categorie"
 
     ## exception model
     Exception:
