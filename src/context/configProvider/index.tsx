@@ -54,7 +54,9 @@ export const ConfigProvider = ({
     <ConfigProviderContext.Provider value={{ mode, setMode: handleSetMode }}>
       <AntdConfigProvider
         theme={{
-          ...RefineThemes.Orange,
+          token: {
+            colorPrimary: "#1C7430",
+          },
           algorithm:
             mode === "light" ? theme.defaultAlgorithm : theme.darkAlgorithm,
           ...themeFromProps,
