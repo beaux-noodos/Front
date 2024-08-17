@@ -127,6 +127,41 @@ export const LocationDrawerForm = (props: Props) => {
             >
               <Input />
             </Form.Item>
+            <Form.Item
+              label={t("location.name")}
+              name="name"
+              className={styles.formItem}
+              rules={[{ required: true, message: t("validation.required", { field: t("location.name") }) }]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label={t("location.description")}
+              name="description"
+              className={styles.formItem}
+              rules={[{ required: true, message: t("validation.required", { field: t("location.description") }) }]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label={t("location.latitude")}
+              name="latitude"
+              className={styles.formItem}
+              rules={[{ required: true, message: t("validation.required", { field: t("location.latitude") }) }]}
+            >
+              <Input type="number" step="any" />
+            </Form.Item>
+
+            <Form.Item
+              label={t("location.longitude")}
+              name="longitude"
+              className={styles.formItem}
+              rules={[{ required: true, message: t("validation.required", { field: t("location.longitude") }) }]}
+            >
+              <Input type="number" step="any" />
+            </Form.Item>
 
             <Flex
               align="center"

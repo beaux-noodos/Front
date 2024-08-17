@@ -126,6 +126,26 @@ export const LocationDrawerShow = (props: Props) => {
                                     </Space>
                                 ),
                             },
+                            {
+                                title: t("location.name"),
+                                icon: <TagOutlined style={{ color: token.colorPrimary }} />,
+                                value: <Typography.Text>{location?.name}</Typography.Text>,
+                            },
+                            {
+                                title: t("location.description"),
+                                icon: <FormOutlined style={{ color: token.colorPrimary }} />,
+                                value: <Typography.Text>{location?.description}</Typography.Text>,
+                            },
+                            {
+                                title: t("location.latitude"),
+                                icon: <TagOutlined style={{ color: token.colorPrimary }} />,
+                                value: <Typography.Text>{location?.latitude}</Typography.Text>,
+                            },
+                            {
+                                title: t("location.longitude"),
+                                icon: <TagOutlined style={{ color: token.colorPrimary }} />,
+                                value: <Typography.Text>{location?.longitude}</Typography.Text>,
+                            },
                         ]}
                         renderItem={(item) => {
                             return (
