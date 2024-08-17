@@ -26,7 +26,7 @@ const renderAuthContent = (content: React.ReactNode) => {
           }}
         >
             <Space size={12}>
-                <img src="/images/edustage.png" alt="Edustage Logo" style={{width: '152px', height: '32px'}}/>
+                <img src="/images/edustage.png" alt="Edustage Logo" style={{width: '90px', height: '90px'}}/>
             </Space>
         </Flex>
       </Link>
