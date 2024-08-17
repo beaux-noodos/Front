@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   Typography,
@@ -8,14 +8,18 @@ import {
   Input,
   Button,
   Form,
+  Collapse,
   theme,
 } from "antd";
 import { MessageOutlined, ShareAltOutlined } from "@ant-design/icons";
 import { LikeButton } from "../../../button";
 import { IProject } from "../../../interfaces";
 import { dateFormatter } from "../../../utils/formatDate/dateFormatter";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 const { Text, Title, Paragraph } = Typography;
+const { Panel } = Collapse;
 
 interface CommentModalProps {
   isModalOpen: boolean;
@@ -28,11 +32,11 @@ export const CommentModal: React.FC<CommentModalProps> = ({
   isModalOpen,
   handleCancel,
   data,
-  comments,
 }) => {
   const [newComment, setNewComment] = useState("");
   const [form] = Form.useForm();
   const { token } = theme.useToken();
+  const [showMap, setShowMap] = useState(false);
 
   const handleSubmit = () => {
     if (newComment.trim()) {
@@ -54,6 +58,16 @@ export const CommentModal: React.FC<CommentModalProps> = ({
     }
   };
 
+  // Log the coordinates when data is updated
+  useEffect(() => {
+    const latitude = parseFloat(data?.localisation?.latitude);
+  const longitude = parseFloat(data?.localisation?.longitude);
+    console.log("Data Destination Coordinates:", {
+      latitude,
+      longitude
+    });
+  }, [data]);
+
   return (
     <Modal
       open={isModalOpen}
@@ -65,8 +79,21 @@ export const CommentModal: React.FC<CommentModalProps> = ({
     >
       <Row gutter={16}>
         <Col span={24}>
-          <div style={{ padding: "1rem", borderRadius: "8px", border: "1px solid #e8e8e8", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
-            <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
+          <div
+            style={{
+              padding: "1rem",
+              borderRadius: "8px",
+              border: "1px solid #e8e8e8",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "1rem",
+              }}
+            >
               {data?.user?.photo_url && (
                 <Avatar
                   src={data.user.photo_url}
@@ -83,7 +110,13 @@ export const CommentModal: React.FC<CommentModalProps> = ({
                 <Text style={{ fontWeight: "600", fontSize: "16px" }}>
                   {`${data?.user?.first_name} ${data?.user?.last_name}`}
                 </Text>
-                <Text style={{ marginLeft: "1rem", fontSize: "14px", color: "#888" }}>
+                <Text
+                  style={{
+                    marginLeft: "1rem",
+                    fontSize: "14px",
+                    color: "#888",
+                  }}
+                >
                   {dateFormatter(data?.creation_datetime).slice(0, -5)}
                 </Text>
               </div>
@@ -112,14 +145,30 @@ export const CommentModal: React.FC<CommentModalProps> = ({
               </div>
             )}
 
-            <div style={{ display: "flex", alignItems: "center", padding: "16px 0", borderTop: "1px solid #e8e8e8" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "16px 0",
+                borderTop: "1px solid #e8e8e8",
+              }}
+            >
               <div style={{ flexGrow: 1 }}>
                 <Text style={{ fontSize: "16px", fontWeight: "500" }}>
                   Price: <span style={{ color: "#1890ff" }}>{data?.price}</span>
                 </Text>
                 {(data?.need_investor || data?.need_technical_solution) && (
-                  <Text style={{ marginLeft: "1rem", fontSize: "16px", fontWeight: "500" }}>
-                    End Date: <span style={{ color: "#1890ff" }}>{dateFormatter(data?.end_datetime)}</span>
+                  <Text
+                    style={{
+                      marginLeft: "1rem",
+                      fontSize: "16px",
+                      fontWeight: "500",
+                    }}
+                  >
+                    End Date:{" "}
+                    <span style={{ color: "#1890ff" }}>
+                      {dateFormatter(data?.end_datetime)}
+                    </span>
                   </Text>
                 )}
               </div>
@@ -136,7 +185,9 @@ export const CommentModal: React.FC<CommentModalProps> = ({
               </div>
             </div>
 
-            <div style={{ padding: "16px 0", borderBottom: "1px solid #e8e8e8" }}>
+            <div
+              style={{ padding: "16px 0", borderBottom: "1px solid #e8e8e8" }}
+            >
               <Text strong>Liked by</Text>
               <Avatar.Group
                 maxCount={3}
@@ -151,33 +202,65 @@ export const CommentModal: React.FC<CommentModalProps> = ({
               <Text style={{ marginLeft: "8px" }}>and others</Text>
             </div>
 
-            <div style={{ padding: "16px 0", borderTop: "1px solid #e8e8e8" }}>
+            <Collapse onChange={(keys) => setShowMap(keys.includes("1"))}>
+              <Panel header="Map" key="1">
+                {showMap && (
+                  <div
+                    style={{
+                      height: "400px",
+                      width: "100%",
+                      marginBottom: "1rem",
+                    }}
+                  >
+                    <MapContainer
+                      center={[-18.87035780649145, 47.534787913601654]}
+                      zoom={50}
+                      style={{ height: "100%", width: "100%" }}
+                    >
+                      <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                      />
+                      {data?.localisation && (
+                        <Marker
+                          position={[
+                            "-18.87035780649145",
+                            "47.534787913601654",
+                          ]}
+                        >
+                          <Popup>
+                            Location: {-18.87035780649145}, {47.534787913601654}
+                          </Popup>
+                        </Marker>
+                      )}
+                    </MapContainer>
+                  </div>
+                )}
+              </Panel>
+            </Collapse>
+
+            <div style={{ padding: "16px 0" }}>
               <Form
                 form={form}
                 layout="inline"
                 onFinish={handleSubmit}
-                style={{ display: "flex", justifyContent: "center", gap: "8px" }}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "8px",
+                }}
               >
-                <Form.Item
-                  name="comment"
-                  style={{ flex: 1, margin: 0 }}
-                  rules={[{ required: true, message: "Please enter a comment!" }]}
-                >
+                <Form.Item name="comment" style={{ flex: 1 }}>
                   <Input.TextArea
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
+                    placeholder="Add a comment"
                     rows={2}
-                    placeholder="Add a comment..."
-                    style={{ resize: "none", border: "1px solid #e8e8e8" }}
                   />
                 </Form.Item>
-                <Form.Item style={{ margin: 0 }}>
-                  <Button
-                    type="text"
-                    htmlType="submit"
-                    style={{ borderRadius: "20px", color: token.colorPrimary }}
-                  >
-                    Post
+                <Form.Item>
+                  <Button type="primary" htmlType="submit">
+                    Submit
                   </Button>
                 </Form.Item>
               </Form>
