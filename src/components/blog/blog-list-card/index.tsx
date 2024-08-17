@@ -24,6 +24,7 @@ import {CommentButton, LikeButton} from "../../../button";
 import {CommentModal} from "../../modal/commendModal";
 import {EyeOutlined, UserOutlined} from "@ant-design/icons";
 import {formatDate} from "../../../utils/formatDate";
+import {storeFirstTechnicalSolutionId} from "../../../utils/getFirstTechnicalSolutionId";
 
 export const BlogListCard = () => {
     const [current, setCurrent] = useState(1);
@@ -69,6 +70,8 @@ export const BlogListCard = () => {
         {id: 2, date: new Date(), text: "Very informative.", user: "User2"},
         {id: 3, date: new Date(), text: "Thanks for sharing.", user: "User3"},
     ];
+
+    storeFirstTechnicalSolutionId(projects);
 
     return (
         <>

@@ -1580,7 +1580,7 @@ export class ChatbotApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof ChatbotApi
      */
-    public putChatbotTechnicalInformation(tsid: string, prompt: Prompt, options?: RawAxiosRequestConfig) {
+        public putChatbotTechnicalInformation(tsid: string, prompt: Prompt, options?: RawAxiosRequestConfig) {
         return ChatbotApiFp(this.configuration).putChatbotTechnicalInformation(tsid, prompt, options).then((request) => request(this.axios, this.basePath));
     }
 }

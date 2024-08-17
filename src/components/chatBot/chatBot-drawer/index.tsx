@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Drawer, List, Avatar, Typography, Divider, Space, Input, Button, theme } from 'antd';
-import { RobotOutlined, SendOutlined } from '@ant-design/icons';
+import { RobotOutlined, SendOutlined, StarOutlined, SwitcherOutlined } from '@ant-design/icons';
 import { useChat } from '../../../context/chatBotProvider';
 import { SuggestionCard } from '../suggestionCard';
+import { getCachedTSId } from "../../../utils/getCachedUser";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -13,10 +14,12 @@ interface ChatDrawerProps {
 }
 
 export const ChatDrawer: React.FC<ChatDrawerProps> = ({ visible, onClose }) => {
-    const { messages, sendMessage } = useChat();
+    const { messages, sendMessage, fetchTechnicalInformation, currentScreen, switchScreen } = useChat();
     const [inputValue, setInputValue] = useState("");
 
     const { token: color } = theme.useToken();
+
+    const TSId = getCachedTSId();
 
     const handleSend = () => {
         if (inputValue.trim()) {
@@ -29,15 +32,68 @@ export const ChatDrawer: React.FC<ChatDrawerProps> = ({ visible, onClose }) => {
         setInputValue(title);
     };
 
+    const handlePremiumButtonClick = () => {
+        if (TSId) {
+            fetchTechnicalInformation();
+        }
+    };
+
+    const handleSwitchScreen = () => {
+        switchScreen(currentScreen === 'information' ? 'technicalInformation' : 'information');
+    };
+
+    const emptyContent = (
+        <div>
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "0px 0px 20px 0px",
+                }}
+            >
+                <RobotOutlined
+                    style={{
+                        fontSize: "24px",
+                        marginRight: "8px",
+                        color: color.colorPrimary,
+                    }}
+                />
+                <Text style={{ color: color.colorTextTertiary }}>
+                    Start a new conversation
+                </Text>
+            </div>
+            <SuggestionCard onSelectSuggestion={handleSelectSuggestion} />
+        </div>
+    );
+
     return (
         <Drawer
-            title="Chatbot"
+            title={`Chatbot - ${currentScreen === 'information' ? 'Information' : 'Technical Information'}`}
             placement="right"
             onClose={onClose}
             open={visible}
             width={650}
             bodyStyle={{ padding: "20px" }}
         >
+            <Button
+                type="default"
+                onClick={handleSwitchScreen}
+                icon={<SwitcherOutlined />}
+                style={{ marginBottom: "16px" }}
+            >
+                Switch to {currentScreen === 'information' ? 'Technical Information' : 'Information'}
+            </Button>
+            {currentScreen === 'technicalInformation' && TSId && (
+                <Button
+                    type="primary"
+                    onClick={handlePremiumButtonClick}
+                    icon={<StarOutlined />}
+                    style={{ marginBottom: "16px" }}
+                >
+                    Premium Function
+                </Button>
+            )}
             <List
                 dataSource={messages}
                 renderItem={(item) => (
@@ -83,30 +139,7 @@ export const ChatDrawer: React.FC<ChatDrawerProps> = ({ visible, onClose }) => {
                     </List.Item>
                 )}
                 locale={{
-                    emptyText: (
-                        <div>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    margin: "0px 0px 20px 0px",
-                                }}
-                            >
-                                <RobotOutlined
-                                    style={{
-                                        fontSize: "24px",
-                                        marginRight: "8px",
-                                        color: color.colorPrimary,
-                                    }}
-                                />
-                                <Text style={{ color: color.colorTextTertiary }}>
-                                    Start a new conversation
-                                </Text>
-                            </div>
-                            <SuggestionCard onSelectSuggestion={handleSelectSuggestion} />
-                        </div>
-                    ),
+                    emptyText: emptyContent,
                 }}
             />
             <Divider />
