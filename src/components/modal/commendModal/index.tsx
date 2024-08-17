@@ -155,7 +155,7 @@ export const CommentModal: React.FC<CommentModalProps> = ({
             >
               <div style={{ flexGrow: 1 }}>
                 <Text style={{ fontSize: "16px", fontWeight: "500" }}>
-                  Price: <span style={{ color: "#1890ff" }}>{data?.price}</span>
+                  Price: <span style={{ color: "#1890ff" }}>{data?.price} MGA</span>
                 </Text>
                 {(data?.need_investor || data?.need_technical_solution) && (
                   <Text

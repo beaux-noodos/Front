@@ -141,7 +141,7 @@ export const ProfilePageContent = () => {
                   <>
                     <Typography.Text>{project.description}</Typography.Text>
                     <br />
-                    <Typography.Text>{project.price}</Typography.Text>
+                    <Typography.Text> Price: {project.price} MGA</Typography.Text>
                   </>
                 }
               />
