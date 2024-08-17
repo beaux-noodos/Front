@@ -31,7 +31,7 @@ export const LocationList = ({children}: PropsWithChildren) => {
                         });
                     }}
                 >
-                    {t("locations.actions.add")}
+                    {t("creation location")}
                 </CreateButton>,
             ]}
         >

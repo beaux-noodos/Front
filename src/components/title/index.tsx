@@ -19,7 +19,7 @@ export const Title: React.FC<TitleProps> = ({collapsed}) => {
                     <FinefoodsLogoIcon/>
                 ) : (
                     <Space size={12}>
-                        <img src="/images/edustage.png" alt="Edustage Logo" style={{width: '152px', height: '32px'}}/>
+                        <img src="/images/edustage.png" alt="Edustage Logo" style={{margin:'0 42.5px ',width: '80px', height: '80px',alignSelf:"center"}}/>
                     </Space>
                 )}
             </Link>

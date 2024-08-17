@@ -21,14 +21,14 @@ export const DashboardPage = ({ children }: PropsWithChildren) => {
             <List
                 breadcrumb={false}
                 headerButtons={(props) => [
-                    <CreateButton
-                        {...props.createButtonProps}
-                        key="create"
-                        size="large"
-                        onClick={showModal} // Show modal on button click
-                    >
-                        {t("project.actions.add")}
-                    </CreateButton>,
+                        <CreateButton
+                            {...props.createButtonProps}
+                            key="create"
+                            size="large"
+                            onClick={showModal} // Show modal on button click
+                        >
+                            {t("create project")}
+                        </CreateButton>,
                 ]}
             >
                 <BlogListCard />
