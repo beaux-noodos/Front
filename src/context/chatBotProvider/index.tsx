@@ -1,6 +1,6 @@
-import React, {createContext, useContext, useState} from 'react';
-import {createAuthenticatedRequest} from "../../provider/api";
-import {getCachedUser} from "../../utils/getCachedUser";
+import React, { createContext, useContext, useState } from 'react';
+import { createAuthenticatedRequest } from "../../provider/api";
+import {getCachedTSId, getCachedUser} from "../../utils/getCachedUser";
 
 interface Message {
     sender: 'user' | 'bot';
@@ -11,20 +11,24 @@ interface Message {
 interface ChatContextType {
     messages: Message[];
     sendMessage: (prompt: string) => Promise<void>;
+    fetchTechnicalInformation: () => Promise<void>;
+    currentScreen: 'information' | 'technicalInformation';
+    switchScreen: (screen: 'information' | 'technicalInformation') => void;
 }
 
 const ChatContext = createContext<ChatContextType | null>(null);
 
-export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
+export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [messages, setMessages] = useState<Message[]>([]);
-    const {chatbotApi} = createAuthenticatedRequest();
+    const [currentScreen, setCurrentScreen] = useState<'information' | 'technicalInformation'>('information');
+    const { chatbotApi } = createAuthenticatedRequest();
 
     const user = getCachedUser();
+    const TSId  = getCachedTSId();
 
     const sendMessage = async (prompt: string) => {
-        // Add the user's message to the chat
         const userMessage: Message = {
-            sender: user?.last_name || 'User',
+            sender: 'user',
             text: prompt,
             timestamp: new Date().toISOString(),
         };
@@ -32,7 +36,15 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({children}
 
         try {
             const id = user?.id || "";
-            const response = await chatbotApi.getChatbotInformation(id, prompt);
+            let response;
+
+            if (currentScreen === 'information') {
+                console.log("information")
+                response = await chatbotApi.getChatbotInformation(id, prompt);
+            } else if (currentScreen === 'technicalInformation') {
+                console.log("technicalInformation")
+                response = await chatbotApi.getChatbotTechnicalInformation(id, TSId, prompt);
+            }
 
             const botResponse: Message = {
                 sender: 'bot',
@@ -41,13 +53,26 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({children}
             };
             setMessages(prev => [...prev, botResponse]);
         } catch (error) {
-            console.error("Error fetching chatbot information:", error);
+            console.error("Error fetching information:", error);
             // Optionally, handle the error by adding an error message to the chat
         }
     };
 
+    const fetchTechnicalInformation = async () => {
+        try {
+            const response = await chatbotApi.getChatbotTechnicalInformation();
+            console.log('Technical Information:', response.data);
+        } catch (error) {
+            console.error("Error fetching technical information:", error);
+        }
+    };
+
+    const switchScreen = (screen: 'information' | 'technicalInformation') => {
+        setCurrentScreen(screen);
+    };
+
     return (
-        <ChatContext.Provider value={{messages, sendMessage}}>
+        <ChatContext.Provider value={{ messages, sendMessage, fetchTechnicalInformation, currentScreen, switchScreen }}>
             {children}
         </ChatContext.Provider>
     );

@@ -9,7 +9,7 @@ const { TextArea } = Input;
 
 interface Todo {
     id: string;
-    title: string;
+    prompt_category: string;
     body: string;
 }
 
@@ -43,7 +43,7 @@ export const TrainingDrawer: React.FC<TrainingDrawerProps> = ({ visible, onClose
                 console.log(toDomainTraining);
 
                 // Attempt to update chatbot information
-              //  await chatbotApi.putChatbotTechnicalInformation(user?.id, toDomainTraining);
+               await chatbotApi.putChatbotTechnicalInformation(user?.id, toDomainTraining);
 
                 // Add the new todo to the state
                 setTodos([...todos, { ...newTodo, id: uuidv4() }]);
@@ -64,7 +64,7 @@ export const TrainingDrawer: React.FC<TrainingDrawerProps> = ({ visible, onClose
 
     const handleEditTodo = (todo: Todo) => {
         setEditingTodoId(todo.id);
-        editForm.setFieldsValue({ title: todo.title, body: todo.body });
+        editForm.setFieldsValue({ prompt_category: todo.prompt_category, body: todo.body });
         setIsFormVisible(true);
     };
 
@@ -113,7 +113,6 @@ export const TrainingDrawer: React.FC<TrainingDrawerProps> = ({ visible, onClose
                                 padding: '10px',
                             }}
                             actions={[
-                                <Button icon={<EditOutlined />} onClick={() => handleEditTodo(todo)}>Edit</Button>,
                                 <Button danger icon={<DeleteOutlined />} onClick={() => handleDeleteTodo(todo.id)}>Delete</Button>
                             ]}
                         >

@@ -7,3 +7,5 @@ export const getCachedWhoami = () => {
     const whoami = localStorage.getItem('whoami');
     return whoami ? JSON.parse(whoami) : null;
 };
+
+export const getCachedTSId = () => localStorage.getItem('technicalSolutionId') || null;
