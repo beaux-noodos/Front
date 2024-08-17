@@ -18,7 +18,7 @@ import {
 } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import { useLocation } from "react-router-dom";
-import {ILocation} from "../../../interfaces";
+import { ILocation } from "../../../interfaces";
 
 export const LocationListTable = () => {
     const t = useTranslate();
@@ -78,9 +78,19 @@ export const LocationListTable = () => {
                 />
 
                 <Table.Column
-                    title={t("date.updated_at")}
-                    dataIndex="updated_at"
-                    key="updated_at"
+                    title={t("date.creation_datetime")}
+                    dataIndex="creation_datetime"
+                    key="creation_datetime"
+                    render={(value: string) => (
+                        <Typography.Text style={{ whiteSpace: "nowrap" }}>
+                            {value}
+                        </Typography.Text>
+                    )}
+                />
+                <Table.Column
+                    title={t("Name")}
+                    dataIndex="name"
+                    key="name"
                     render={(value: string) => (
                         <Typography.Text style={{ whiteSpace: "nowrap" }}>
                             {value}
@@ -88,6 +98,38 @@ export const LocationListTable = () => {
                     )}
                 />
 
+                <Table.Column
+                    title={t("Description")}
+                    dataIndex="description"
+                    key="description"
+                    render={(value: string) => (
+                        <Typography.Text style={{ whiteSpace: "nowrap" }}>
+                            {value}
+                        </Typography.Text>
+                    )}
+                />
+
+                <Table.Column
+                    title={t("Latitude")}
+                    dataIndex="latitude"
+                    key="latitude"
+                    render={(value: number) => (
+                        <Typography.Text style={{ whiteSpace: "nowrap" }}>
+                            {value}
+                        </Typography.Text>
+                    )}
+                />
+
+                <Table.Column
+                    title={t("Longitude")}
+                    dataIndex="longitude"
+                    key="longitude"
+                    render={(value: number) => (
+                        <Typography.Text style={{ whiteSpace: "nowrap" }}>
+                            {value}
+                        </Typography.Text>
+                    )}
+                />
                 <Table.Column
                     title={t("table.actions")}
                     key="actions"
