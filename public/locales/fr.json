@@ -1,0 +1,425 @@
+{
+    "pages": {
+      "login": {
+        "title": "Connectez-vous à votre compte",
+        "signin": "Se connecter",
+        "signup": "S'inscrire",
+        "divider": "ou",
+        "fields": {
+          "email": "E-mail",
+          "password": "Mot de passe"
+        },
+        "errors": {
+          "validEmail": "Adresse e-mail invalide"
+        },
+        "buttons": {
+          "submit": "Connexion",
+          "forgotPassword": "Mot de passe oublié ?",
+          "noAccount": "Vous n'avez pas de compte ?",
+          "rememberMe": "Se souvenir de moi"
+        }
+      },
+      "forgotPassword": {
+        "title": "Mot de passe oublié ?",
+        "fields": {
+          "email": "E-mail"
+        },
+        "errors": {
+          "validEmail": "Adresse e-mail invalide"
+        },
+        "buttons": {
+          "submit": "Envoyer les instructions de réinitialisation"
+        }
+      },
+      "register": {
+        "title": "Créez votre compte",
+        "fields": {
+          "email": "E-mail",
+          "password": "Mot de passe"
+        },
+        "errors": {
+          "validEmail": "Adresse e-mail invalide"
+        },
+        "buttons": {
+          "submit": "S'inscrire",
+          "haveAccount": "Vous avez un compte ?"
+        }
+      },
+      "updatePassword": {
+        "title": "Mettre à jour le mot de passe",
+        "fields": {
+          "password": "Nouveau mot de passe",
+          "confirmPassword": "Confirmer le nouveau mot de passe"
+        },
+        "errors": {
+          "confirmPasswordNotMatch": "Les mots de passe ne correspondent pas"
+        },
+        "buttons": {
+          "submit": "Mettre à jour"
+        }
+      },
+      "error": {
+        "info": "Vous avez peut-être oublié d'ajouter le composant {{action}} à la ressource {{resource}}.",
+        "404": "Désolé, la page que vous avez visitée n'existe pas.",
+        "resource404": "Êtes-vous sûr d'avoir créé la ressource {{resource}}.",
+        "backHome": "Retour à l'accueil"
+      }
+    },
+    "date": {
+      "creation_datetime": "Date de création",
+      "updated_at": "Mis à jour le"
+    },
+    "actions": {
+      "list": "Lister",
+      "create": "Créer",
+      "edit": "Modifier",
+      "show": "Afficher",
+      "delete": "Supprimer",
+      "cancel": "Annuler"
+    },
+    "buttons": {
+      "add": "Ajouter",
+      "create": "Créer",
+      "save": "Sauvegarder",
+      "logout": "Se déconnecter",
+      "delete": "Supprimer",
+      "edit": "Modifier",
+      "cancel": "Annuler",
+      "confirm": "Êtes-vous sûr ?",
+      "filter": "Filtrer",
+      "clear": "Effacer",
+      "refresh": "Rafraîchir",
+      "show": "Afficher",
+      "undo": "Annuler",
+      "import": "Importer",
+      "export": "Exporter",
+      "clone": "Cloner",
+      "accept": "Accepter",
+      "acceptAll": "Tout accepter",
+      "reject": "Rejeter",
+      "rejectAll": "Tout rejeter",
+      "nextStep": "Suivant",
+      "previousStep": "Précédent"
+    },
+    "loading": "Chargement",
+    "tags": {
+      "clone": "Cloner"
+    },
+    "table": {
+      "actions": "Actions",
+      "inTotal": "au total"
+    },
+    "search": {
+      "placeholder": "Rechercher par ID de magasin, e-mail, mot-clé",
+      "more": "plus"
+    },
+    "status": {
+      "enable": "Activer",
+      "disable": "Désactiver"
+    },
+    "warnWhenUnsavedChanges": "Êtes-vous sûr de vouloir partir ? Vous avez des modifications non enregistrées.",
+    "notifications": {
+      "success": "Réussi",
+      "error": "Erreur (code d'état : {{statusCode}})",
+      "undoable": "Vous avez {{seconds}} secondes pour annuler",
+      "createSuccess": "Création de {{resource}} réussie",
+      "createError": "Erreur lors de la création de {{resource}} (code d'état : {{statusCode}})",
+      "deleteSuccess": "Suppression de {{resource}} réussie",
+      "deleteError": "Erreur lors de la suppression de {{resource}} (code d'état : {{statusCode}})",
+      "editSuccess": "Modification de {{resource}} réussie",
+      "editError": "Erreur lors de la modification de {{resource}} (code d'état : {{statusCode}})",
+      "importProgress": "Importation : {{processed}}/{{total}}"
+    },
+    "categories": {
+      "categories": "Catégories",
+      "titles": {
+        "list": "Catégories"
+      },
+      "fields": {
+        "id": "ID",
+        "title": "Titre",
+        "products": "Produits",
+        "isActive": {
+          "label": "Statut",
+          "true": "Visible",
+          "false": "Invisible"
+        }
+      }
+    },
+    "couriers": {
+      "couriers": "Livreurs",
+      "titles": {
+        "create": "Créer un livreur",
+        "list": "Livreurs",
+        "edit": "Modifier le livreur"
+      },
+      "fields": {
+        "id": "ID",
+        "avatar": {
+          "label": "Avatar",
+          "description": "Cliquez ou faites glisser l'image de l'avatar dans cette zone pour télécharger."
+        },
+        "name": {
+          "label": "Nom",
+          "placeholder": "Veuillez entrer le nom du livreur"
+        },
+        "surname": {
+          "label": "Prénom",
+          "placeholder": "Veuillez entrer le prénom du livreur"
+        },
+        "gender": {
+          "label": "Sexe",
+          "male": "Homme",
+          "female": "Femme"
+        },
+        "gsm": {
+          "label": "Gsm",
+          "placeholder": "Veuillez entrer le GSM du livreur"
+        },
+        "email": {
+          "label": "E-mail",
+          "placeholder": "Veuillez entrer l'e-mail du livreur"
+        },
+        "address": {
+          "label": "Adresse",
+          "placeholder": "Veuillez entrer l'adresse du livreur"
+        },
+        "createdAt": "Créé le",
+        "status": {
+          "label": "Statut",
+          "Available": "Disponible",
+          "Offline": "Hors ligne",
+          "On delivery": "En livraison"
+        },
+        "vehicleType": {
+          "label": "Type de véhicule",
+          "placeholder": "Veuillez entrer le type de véhicule"
+        },
+        "licensePlate": {
+          "label": "ID du véhicule",
+          "placeholder": "Veuillez entrer l'ID du véhicule",
+          "patternMessage": "Veuillez entrer un ID de véhicule valide. Exemple : ABC 123"
+        },
+        "rating": {
+          "label": "Évaluation",
+          "placeholder": "Veuillez entrer l'évaluation"
+        },
+        "images": {
+          "label": "Images",
+          "description": "Ajouter une photo de l'utilisateur",
+          "validation": "doit être de 480x480 px"
+        },
+        "store": {
+          "label": "Magasin",
+          "placeholder": "Sélectionner un magasin"
+        },
+        "vehicle": {
+          "label": "Véhicule",
+          "placeholder": "Sélectionner un véhicule"
+        },
+        "accountNumber": {
+          "label": "Numéro de compte",
+          "placeholder": "Veuillez entrer le numéro de compte"
+        }
+      },
+      "filter": {
+        "title": "Filtres",
+        "name": {
+          "label": "Nom",
+          "placeholder": "Rechercher un nom"
+        },
+        "licensePlate": {
+          "label": "Nom",
+          "placeholder": "Rechercher un nom"
+        },
+        "gsm": {
+          "label": "Gsm",
+          "placeholder": "Rechercher un Gsm"
+        },
+        "email": {
+          "label": "E-mail",
+          "placeholder": "Rechercher un e-mail"
+        },
+        "submit": "Filtrer"
+      },
+      "steps": {
+        "personal": "Personnel",
+        "company": "Entreprise",
+        "vehicle": "Véhicule"
+      },
+      "actions": {
+        "add": "Ajouter un nouveau livreur",
+        "edit": "Modifier le livreur"
+      }
+    },
+    "dashboard": {
+      "title": "Tableau de bord",
+      "overview": {
+        "title": "Vue d'ensemble"
+      },
+      "filter": {
+        "title": "Filtres",
+        "date": {
+          "lastWeek": "La semaine dernière",
+          "lastMonth": "Le mois dernier",
+          "lastYear": "L'année dernière"
+        }
+      },
+      "deliveryMap": {
+        "title": "Carte des livraisons"
+      },
+      "orders": {
+        "title": "Commandes"
+      },
+      "revenue": {
+        "title": "Revenu"
+      },
+      "totalSales": {
+        "title": "Ventes totales"
+      }
+    },
+    "orders": {
+      "orders": "Commandes",
+      "titles": {
+        "create": "Créer une commande",
+        "list": "Commandes",
+        "edit": "Modifier la commande",
+        "show": "Afficher la commande"
+      },
+      "buttons": {
+        "add": "Ajouter une commande",
+        "edit": "Modifier la commande"
+      },
+      "fields": {
+        "id": "ID",
+        "title": "Titre",
+        "customer": {
+          "label": "Client",
+          "placeholder": "Sélectionner un client"
+        },
+        "store": {
+          "label": "Magasin",
+          "placeholder": "Sélectionner un magasin"
+        },
+        "courier": {
+          "label": "Livreur",
+          "placeholder": "Sélectionner un livreur"
+        },
+        "products": {
+          "label": "Produits",
+          "placeholder": "Sélectionner un produit"
+        },
+        "orderItems": {
+          "label": "Articles commandés",
+          "product": "Produit",
+          "quantity": "Quantité",
+          "price": "Prix",
+          "totalPrice": "Prix total"
+        },
+        "totalAmount": "Montant total",
+        "status": {
+          "label": "Statut",
+          "select": "Sélectionner un statut",
+          "On the way": "En route",
+          "Delivered": "Livré",
+          "Cancelled": "Annulé",
+          "Pending": "En attente"
+        },
+        "type": {
+          "label": "Type",
+          "select": "Sélectionner un type",
+          "In store": "En magasin",
+          "Home delivery": "Livraison à domicile"
+        },
+        "isPaid": {
+          "label": "Payé",
+          "true": "Oui",
+          "false": "Non"
+        }
+      },
+      "filter": {
+        "title": "Filtres",
+        "name": {
+          "label": "Nom",
+          "placeholder": "Rechercher un nom"
+        },
+        "totalAmount": {
+          "label": "Montant total",
+          "placeholder": "Rechercher par montant total"
+        },
+        "gsm": {
+          "label": "Gsm",
+          "placeholder": "Rechercher par Gsm"
+        },
+        "email": {
+          "label": "E-mail",
+          "placeholder": "Rechercher par e-mail"
+        },
+        "submit": "Filtrer"
+      }
+    },
+    "products": {
+      "products": "Produits",
+      "titles": {
+        "create": "Créer un produit",
+        "list": "Produits",
+        "edit": "Modifier le produit",
+        "show": "Afficher le produit"
+      },
+      "fields": {
+        "id": "ID",
+        "image": "Image",
+        "imageUrl": "URL de l'image",
+        "name": {
+          "label": "Nom",
+          "placeholder": "Entrer le nom du produit"
+        },
+        "sku": {
+          "label": "Référence",
+          "placeholder": "Entrer la référence du produit"
+        },
+        "price": {
+          "label": "Prix",
+          "placeholder": "Entrer le prix"
+        },
+        "tags": {
+          "label": "Étiquettes",
+          "placeholder": "Entrer des étiquettes"
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": "Entrer la description"
+        },
+        "isActive": {
+          "label": "Statut",
+          "true": "Actif",
+          "false": "Inactif"
+        },
+        "category": {
+          "label": "Catégorie",
+          "placeholder": "Sélectionner une catégorie"
+        }
+      },
+      "filter": {
+        "title": "Filtres",
+        "name": {
+          "label": "Nom",
+          "placeholder": "Rechercher un nom"
+        },
+        "sku": {
+          "label": "Référence",
+          "placeholder": "Rechercher par référence"
+        },
+        "price": {
+          "label": "Prix",
+          "placeholder": "Rechercher par prix"
+        },
+        "submit": "Filtrer"
+      },
+      "actions": {
+        "add": "Ajouter un produit",
+        "edit": "Modifier le produit"
+      }
+    }
+  }
+  
